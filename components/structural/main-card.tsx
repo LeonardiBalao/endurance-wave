@@ -1,4 +1,3 @@
-import PropertyFilter from "@/app/painel/imoveis/property-filter";
 import { cn } from "@/lib/utils";
 
 import { Link, ArrowUpRight } from "lucide-react";

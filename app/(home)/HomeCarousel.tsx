@@ -34,19 +34,16 @@ interface HomeCarousel {
 const slides = [
   {
     title: "Running shoes",
-    description: "Read Comparison",
     imagePath: runningShoes,
     link: "#",
   },
   {
     title: "Walking shoes",
-    description: "Read Comparison",
     imagePath: walkingShoes,
     link: "#",
   },
   {
     title: "Acessories",
-    description: "Read Comparison",
     imagePath: waterBottle,
     link: "#",
   },
@@ -83,14 +80,13 @@ export function HomeCarousel({ className }: HomeCarousel) {
                       alt="Image"
                       className="rounded-sm object-cover"
                       fill
-                      unoptimized
                     />
                   </AspectRatio>
                 </div>
               </CardContent>
               <CardFooter>
                 <Link className="w-full" href={s.link}>
-                  <Button className="w-full">{s.description}</Button>
+                  <Button className="w-full">Check all items</Button>
                 </Link>
               </CardFooter>
             </Card>

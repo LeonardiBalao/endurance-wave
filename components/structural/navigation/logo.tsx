@@ -33,27 +33,16 @@ export default function Logo({
     return null;
   }
 
-  switch (resolvedTheme) {
-    case "light":
-      srcImage = logo;
-      break;
-    case "dark":
-      srcImage = logo;
-      break;
-  }
-
   return (
     <Link href="/" className={cn("", className)}>
-      <div className="flex gap-4">
-        <Image
-          src={srcImage}
-          width={width}
-          height={height}
-          alt="logo"
-          className="mx-auto"
-          unoptimized
-        />
-      </div>
+      <Image
+        src={srcImage}
+        width={width}
+        height={height}
+        alt="logo"
+        className="mx-auto"
+        unoptimized
+      />
       {showSlogan && (
         <>
           <span className="mx-auto font-extrabold text-primary">

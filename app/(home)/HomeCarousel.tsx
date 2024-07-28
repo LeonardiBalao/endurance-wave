@@ -34,19 +34,19 @@ interface HomeCarousel {
 const slides = [
   {
     title: "Running shoes",
-    description: "Read our comparison",
+    description: "Comparison",
     imagePath: runningShoes,
     link: "#",
   },
   {
     title: "Walking shoes",
-    description: "Read our comparison",
+    description: "Comparison",
     imagePath: walkingShoes,
     link: "#",
   },
   {
     title: "Acessories",
-    description: "Read our comparison",
+    description: "Comparison",
     imagePath: waterBottle,
     link: "#",
   },
@@ -83,6 +83,7 @@ export function HomeCarousel({ className }: HomeCarousel) {
                       alt="Image"
                       className="rounded-sm object-cover"
                       fill
+                      unoptimized
                     />
                   </AspectRatio>
                 </div>

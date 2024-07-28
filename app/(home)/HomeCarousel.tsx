@@ -62,7 +62,7 @@ export function HomeCarousel({ className }: HomeCarousel) {
       }}
       plugins={[
         Autoplay({
-          delay: 4000,
+          delay: 2000,
         }),
       ]}
     >

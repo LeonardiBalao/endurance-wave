@@ -2,17 +2,12 @@
 
 import AuthCard from "./auth-card";
 
-interface Inputs {
-  email: string;
-  password: string;
-}
-
 export default function LoginForm() {
   return (
     <AuthCard
-      cardTitle="Entre ou cadastre-se"
+      cardTitle="Sign up or sign in"
       showSocials
-      description="Bem-vindo"
+      description="Welcome"
     />
   );
 }

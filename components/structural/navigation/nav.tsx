@@ -13,7 +13,6 @@ import {
 import {
   Menu,
   LogOut,
-  Home,
   PanelTop,
   LogIn,
   User,
@@ -29,13 +28,13 @@ export default async function Nav() {
   const session = await auth();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between gap-4 border-b px-4 md:px-6 bg-background">
+    <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between gap-4 px-4 md:px-6 bg-background">
       <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:justify-between md:gap-5 md:text-sm lg:gap-6">
         <Logo
           showSlogan
           className="flex items-center gap-4 text-lg font-semibold justify-center"
-          height={15}
-          width={15}
+          height={50}
+          width={50}
         />
       </nav>
       <div className="flex items-center gap-2">
@@ -52,8 +51,8 @@ export default async function Nav() {
               <Logo
                 showSlogan
                 className="flex items-center gap-2 text-lg font-semibold flex-col justify-center"
-                height={50}
-                width={50}
+                height={200}
+                width={200}
               />
               <Separator />
               {!session?.user ? (
@@ -93,42 +92,7 @@ export default async function Nav() {
                       </Button>
                     </Link>
                   </SheetClose>
-                  <SheetClose asChild>
-                    <Link
-                      href="/painel/imoveis"
-                      className="hover:text-foreground group"
-                    >
-                      <Button
-                        variant={"secondary"}
-                        className="w-full flex gap-3 items-center justify-start"
-                      >
-                        <HomeIcon
-                          size={13}
-                          color="gray"
-                          className="group-hover:translate-x-1 transition-all"
-                        />
-                        <p>Buscar Imóveis</p>
-                      </Button>
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link
-                      href="/painel/usuario/imoveis"
-                      className="hover:text-foreground group"
-                    >
-                      <Button
-                        variant={"secondary"}
-                        className="w-full flex gap-3 items-center justify-start"
-                      >
-                        <Building
-                          size={13}
-                          color="gray"
-                          className="group-hover:translate-x-1 transition-all"
-                        />
-                        <p>Meus Imóveis</p>
-                      </Button>
-                    </Link>
-                  </SheetClose>
+
                   <Link
                     href="/painel/usuario"
                     className="hover:text-foreground group"

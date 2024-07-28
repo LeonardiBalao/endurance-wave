@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import logo from "@/public/logo.png";
-import logoWhite from "@/public/logo-white.png";
 
 interface LogoProps {
   className?: string;
@@ -39,7 +38,7 @@ export default function Logo({
       srcImage = logo;
       break;
     case "dark":
-      srcImage = logoWhite;
+      srcImage = logo;
       break;
   }
 
@@ -58,9 +57,9 @@ export default function Logo({
       {showSlogan && (
         <>
           <span className="mx-auto font-extrabold text-primary">
-            LEILÕES.site
+            Endurance Wave
           </span>
-          <span className="sr-only">leiloes.site</span>
+          <span className="sr-only">Endurance Wave</span>
         </>
       )}
     </Link>

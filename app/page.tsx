@@ -1,6 +1,7 @@
 import Main from "@/components/structural/main";
 import Nav from "@/components/structural/navigation/nav";
 import { auth } from "@/server/auth";
+import { HomeCarousel } from "./(home)/HomeCarousel";
 
 export default async function Home() {
   const session = await auth();
@@ -9,8 +10,11 @@ export default async function Home() {
     <>
       <Nav />
       <Main>
-        <div>
-          <pre>{JSON.stringify(session)}</pre>
+        <div className="flex flex-col mt-20 items-center">
+          <h1 className="text-5xl font-bold flex justify-center text-center leading-loose text-primary">
+            Find your sport deal
+          </h1>
+          <HomeCarousel className="mt-14" />
         </div>
       </Main>
     </>

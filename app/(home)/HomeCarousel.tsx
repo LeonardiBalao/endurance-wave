@@ -34,19 +34,19 @@ interface HomeCarousel {
 const slides = [
   {
     title: "Running shoes",
-    description: "Comparison",
+    description: "Read Comparison",
     imagePath: runningShoes,
     link: "#",
   },
   {
     title: "Walking shoes",
-    description: "Comparison",
+    description: "Read Comparison",
     imagePath: walkingShoes,
     link: "#",
   },
   {
     title: "Acessories",
-    description: "Comparison",
+    description: "Read Comparison",
     imagePath: waterBottle,
     link: "#",
   },
@@ -68,7 +68,7 @@ export function HomeCarousel({ className }: HomeCarousel) {
     >
       <CarouselContent>
         {slides.map((s, index) => (
-          <CarouselItem key={index} className="basis-1/2">
+          <CarouselItem key={index} className="md:basis-1/2">
             <Card>
               <CardHeader>
                 <CardTitle className="text-2xl font-semibold">
@@ -83,7 +83,6 @@ export function HomeCarousel({ className }: HomeCarousel) {
                       alt="Image"
                       className="rounded-sm object-cover"
                       fill
-                      unoptimized
                     />
                   </AspectRatio>
                 </div>

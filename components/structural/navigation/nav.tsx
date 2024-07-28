@@ -28,11 +28,11 @@ export default async function Nav() {
   const session = await auth();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between gap-4 px-4 md:px-6 bg-background">
-      <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:justify-between md:gap-5 md:text-sm lg:gap-6">
+    <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between gap-2 px-4 md:px-6 bg-background">
+      <nav className="text-lg font-medium md:flex md:flex-row md:items-center md:justify-between md:gap-5 md:text-sm lg:gap-6">
         <Logo
           showSlogan
-          className="flex items-center gap-4 text-lg font-semibold justify-center"
+          className="flex items-center gap-2 text-lg font-semibold justify-center"
           height={50}
           width={50}
         />
@@ -76,7 +76,7 @@ export default async function Nav() {
                 <>
                   <SheetClose asChild>
                     <Link
-                      href="/painel"
+                      href="/dashboard"
                       className="hover:text-foreground group"
                     >
                       <Button
@@ -88,7 +88,7 @@ export default async function Nav() {
                           color="gray"
                           className="group-hover:translate-x-1 transition-all"
                         />
-                        <p>Painel</p>
+                        <p>Dashboard</p>
                       </Button>
                     </Link>
                   </SheetClose>
@@ -106,7 +106,7 @@ export default async function Nav() {
                         color="gray"
                         className="group-hover:translate-x-1 transition-all"
                       />
-                      <p>Minhas preferências</p>
+                      <p>Preferences</p>
                     </Button>
                   </Link>
                 </>
@@ -146,7 +146,7 @@ export default async function Nav() {
                           className="w-full flex gap-2"
                         >
                           <LogOut />
-                          <span className="text-xs">Fazer logout</span>
+                          <span className="text-xs">Logout</span>
                         </Button>
                       </Link>
                     </SheetClose>

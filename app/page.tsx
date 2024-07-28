@@ -11,8 +11,8 @@ export default async function Home() {
       <Nav />
       <Main>
         <div className="flex flex-col mt-20 items-center">
-          <h1 className="text-5xl font-bold flex justify-center text-center leading-loose text-primary">
-            Find your sport deal
+          <h1 className="text-5xl font-bold flex justify-center text-center leading-normal text-primary">
+            Find your sports deal
           </h1>
           <HomeCarousel className="mt-14" />
         </div>

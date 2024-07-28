@@ -13,7 +13,7 @@ export default async function Home() {
       <Main>
         <div className="flex flex-col mt-14 items-center">
           <h1 className="text-5xl font-bold flex justify-center text-center leading-normal text-primary">
-            Find the best sports deal
+            Find the best sports deal for you
           </h1>
           <HomeCarousel className="mt-14" />
         </div>

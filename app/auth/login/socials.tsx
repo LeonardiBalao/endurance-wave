@@ -10,7 +10,7 @@ export default function Socials() {
       variant={"outline"}
       className="w-full flex gap-4"
       onClick={() =>
-        signIn("google", { redirect: true, callbackUrl: "/painel" })
+        signIn("google", { redirect: true, callbackUrl: "/dashboard" })
       }
     >
       <Chrome size={20} />

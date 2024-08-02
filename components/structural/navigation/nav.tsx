@@ -94,7 +94,7 @@ export default async function Nav() {
                   </SheetClose>
 
                   <Link
-                    href="/painel/usuario"
+                    href="/dashboard/profile"
                     className="hover:text-foreground group"
                   >
                     <Button
@@ -106,7 +106,7 @@ export default async function Nav() {
                         color="gray"
                         className="group-hover:translate-x-1 transition-all"
                       />
-                      <p>Preferences</p>
+                      <p>Profile</p>
                     </Button>
                   </Link>
                 </>

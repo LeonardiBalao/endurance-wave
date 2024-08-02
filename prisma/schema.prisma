@@ -27,8 +27,10 @@ model User {
   // Optional for WebAuthn support
   Authenticator       Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Review    Review[]
+  Comment   Comment[]
 }
 
 model Account {
@@ -84,4 +86,85 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Category {
+  id            String        @id @default(uuid())
+  name          String
+  subcategories Subcategory[]
+  Product       Product[]
+  Review        Review[]
+}
+
+model Subcategory {
+  id         String    @id @default(uuid())
+  name       String
+  categoryId String
+  Category   Category  @relation(fields: [categoryId], references: [id])
+  Review     Review[]
+  Product    Product[]
+}
+
+model Product {
+  id              String      @id @default(uuid())
+  categoryId      String
+  subcategoryId   String
+  name            String
+  description     String      @db.VarChar(1000)
+  metaDescription String      @db.VarChar(160)
+  keywords        String[]
+  characteristics String[]
+  brand           String
+  videoURL        String[]
+  advantages      String[]
+  disadvantages   String[]
+  affiliateURL    String[]
+  rating          Float
+  likes           Int         @default(7)
+  tags            String[]
+  price           Float
+  gender          Gender
+  category        Category    @relation(fields: [categoryId], references: [id])
+  Subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
+  createdAt       DateTime    @default(now())
+}
+
+model Review {
+  id              String      @id @default(uuid())
+  userId          String
+  categoryId      String
+  subcategoryId   String
+  productId       String
+  introduction    String
+  title           String      @db.VarChar(60)
+  description     String      @db.VarChar(500)
+  metaDescription String      @db.VarChar(160)
+  keywords        String[]
+  comparative     String      @db.VarChar(500)
+  imageAlt        String
+  rating          Float
+  tags            String[]
+  likes           Int         @default(72)
+  category        Category    @relation(fields: [categoryId], references: [id])
+  Subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
+  User            User        @relation(fields: [userId], references: [id])
+  Comment         Comment[]
+  createdAt       DateTime    @default(now())
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  userId    String
+  reviewId  String
+  content   String   @db.VarChar(160)
+  likes     Int      @default(0)
+  User      User     @relation(fields: [userId], references: [id])
+  Review    Review   @relation(fields: [reviewId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNISEX
 }

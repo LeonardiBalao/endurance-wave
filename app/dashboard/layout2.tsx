@@ -1,5 +1,6 @@
 import { auth } from "@/server/auth";
 import { Milestone } from "lucide-react";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 interface DashboardLayoutProps {
@@ -10,7 +11,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const session = await auth();
-
+  if (!session?.user) return redirect("/");
   const userLinks = [
     {
       label: "Reviews",
@@ -30,7 +31,7 @@ export default async function DashboardLayout({
   ] as const;
 
   const adminLinks =
-    session?.user.role === "admin"
+    session.user.role === "admin"
       ? ([
           {
             label: "Analytics",

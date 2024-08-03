@@ -15,10 +15,12 @@ export const createCategory = async ({ category }: CreateCategoryProps) => {
 
   if (categoryExists)
     return { error: `Category "${category}" already exists.` };
+
   await prisma.category.create({
     data: {
       name: category,
     },
   });
+
   return { success: `Category "${category}" created.` };
 };

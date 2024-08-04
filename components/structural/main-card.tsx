@@ -14,51 +14,38 @@ import { ReactNode } from "react";
 
 interface MainCardProps {
   title: string;
-  buttonHref: string;
-  buttonText: string;
   description: string;
   children: ReactNode;
-  showFooter?: boolean;
   footerText?: string;
   className?: string;
+  titleClassSize?: string;
 }
 
 export default function MainCard({
   title,
-  buttonHref,
-  buttonText,
   description,
   children,
-  showFooter,
   footerText,
   className,
+  titleClassSize,
 }: MainCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl text-primary flex justify-between items-center">
-          {title}
-          {buttonText && buttonHref && (
-            <Button
-              asChild
-              size="sm"
-              className="ml-auto gap-1"
-              variant={"link"}
-            >
-              <Link href={buttonHref}>
-                {buttonText}
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
+        <CardTitle
+          className={cn(
+            "text-primary flex justify-between items-center",
+            titleClassSize ? titleClassSize : "text-2xl"
           )}
+        >
+          {title}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className={cn("", className)}>{children}</CardContent>
-      {showFooter && (
+      {footerText && (
         <CardFooter className="flex justify-end text-xs">
-          <span className="font-bold mx-1 font-sm">Rodapé</span>
-          imóveis.
+          {footerText}
         </CardFooter>
       )}
     </Card>

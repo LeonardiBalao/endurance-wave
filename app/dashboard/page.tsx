@@ -1,13 +1,13 @@
-import SelectCategory from "./(categories)/categories";
-import NewCategory from "./(categories)/new-category";
+import Link from "next/link";
 import { getCategories } from "@/server/actions/category/get-categories";
+import Main from "@/components/structural/main";
 
 export default async function Dashboard() {
-  const categories = await getCategories();
-
   return (
     <>
-      <SelectCategory categories={categories} />
+      <Main>
+        <Link href={"/dashboard/reviews"}>Reviews</Link>
+      </Main>
     </>
   );
 }

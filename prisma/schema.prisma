@@ -125,7 +125,7 @@ model Product {
   price           Float
   gender          Gender
   category        Category    @relation(fields: [categoryId], references: [id])
-  Subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
+  subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
   createdAt       DateTime    @default(now())
 }
 
@@ -134,20 +134,19 @@ model Review {
   userId          String
   categoryId      String
   subcategoryId   String
-  productId       String
+  productsId      String[]
   introduction    String
   title           String      @db.VarChar(60)
   description     String      @db.VarChar(500)
   metaDescription String      @db.VarChar(160)
   keywords        String[]
   comparative     String      @db.VarChar(500)
-  imageAlt        String
   rating          Float
   tags            String[]
   likes           Int         @default(72)
   category        Category    @relation(fields: [categoryId], references: [id])
-  Subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
-  User            User        @relation(fields: [userId], references: [id])
+  subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
+  user            User        @relation(fields: [userId], references: [id])
   Comment         Comment[]
   createdAt       DateTime    @default(now())
 }
@@ -158,8 +157,8 @@ model Comment {
   reviewId  String
   content   String   @db.VarChar(160)
   likes     Int      @default(0)
-  User      User     @relation(fields: [userId], references: [id])
-  Review    Review   @relation(fields: [reviewId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  review    Review   @relation(fields: [reviewId], references: [id])
   createdAt DateTime @default(now())
 }
 
@@ -167,4 +166,10 @@ enum Gender {
   MALE
   FEMALE
   UNISEX
+}
+
+model Image {
+  id     String @id @default(uuid())
+  base64 String
+  type   String
 }

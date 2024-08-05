@@ -127,28 +127,30 @@ model Product {
   category        Category    @relation(fields: [categoryId], references: [id])
   subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
   createdAt       DateTime    @default(now())
+  Image           Image[]
 }
 
 model Review {
-  id              String      @id @default(uuid())
-  userId          String
-  categoryId      String
-  subcategoryId   String
-  productsId      String[]
-  introduction    String
-  title           String      @db.VarChar(60)
-  description     String      @db.VarChar(500)
-  metaDescription String      @db.VarChar(160)
-  keywords        String[]
-  comparative     String      @db.VarChar(500)
-  rating          Float
-  tags            String[]
-  likes           Int         @default(72)
-  category        Category    @relation(fields: [categoryId], references: [id])
-  subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
-  user            User        @relation(fields: [userId], references: [id])
-  Comment         Comment[]
-  createdAt       DateTime    @default(now())
+  id            String      @id @default(uuid())
+  userId        String
+  categoryId    String
+  subcategoryId String
+  productsId    String[]
+  introduction  String      @db.VarChar(300)
+  title         String      @db.VarChar(60)
+  description   String      @db.VarChar(160)
+  keywords      String[]
+  comparative   String      @db.VarChar(400)
+  conclusion    String      @db.VarChar(300)
+  rating        Float
+  tags          String[]
+  likes         Int         @default(72)
+  category      Category    @relation(fields: [categoryId], references: [id])
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  Comment       Comment[]
+  createdAt     DateTime    @default(now())
+  Image         Image[]
 }
 
 model Comment {
@@ -169,7 +171,11 @@ enum Gender {
 }
 
 model Image {
-  id     String @id @default(uuid())
-  base64 String
-  type   String
+  id        String   @id @default(uuid())
+  data      String
+  alt       String
+  reviewId  String?
+  productId String?
+  Review    Review?  @relation(fields: [reviewId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id])
 }

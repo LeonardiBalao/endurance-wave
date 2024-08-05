@@ -143,7 +143,7 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
               </FormItem>
             )}
           />
-          <div className="flex items-end justify-end">
+          <div className="flex items-end justify-between gap-1">
             <FormField
               control={form.control}
               name="subcategory"

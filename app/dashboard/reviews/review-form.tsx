@@ -2,7 +2,7 @@
 
 import MainCard from "@/components/structural/main-card";
 import { Category, Subcategory } from "@prisma/client";
-import { useReviewStore } from "@/lib/store/review-store";
+// import { useReviewStore } from "@/lib/store/review-store";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -86,7 +86,7 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
     mode: "onChange",
   });
 
-  const { addCategoryId } = useReviewStore();
+  // const { addCategoryId } = useReviewStore();
 
   const [loading, setLoading] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);

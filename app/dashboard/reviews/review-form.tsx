@@ -174,7 +174,6 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                                         : currentValue
                                     );
                                     setCategory(c.name);
-                                    addCategoryId(c.id);
                                     setOpenCategory(false);
                                     form.setValue("subcategory", "");
                                   }}
@@ -240,7 +239,6 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                                         ? ""
                                         : currentValue
                                     );
-                                    addCategoryId(c.id);
                                     setOpenSubcategory(false);
                                   }}
                                 >

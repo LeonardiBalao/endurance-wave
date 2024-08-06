@@ -76,6 +76,8 @@ export const createReview = async (review: ReviewProps) => {
       introductionImageALT: review.introductionImageALT,
       introductionImageURL: review.introductionImageURL,
       mainImageALT: review.mainImageALT,
+      tags: review.tags.split(","),
+      keywords: review.keywords.split(","),
     },
   });
 

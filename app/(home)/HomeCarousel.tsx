@@ -78,6 +78,7 @@ export function HomeCarousel({ className }: HomeCarousel) {
                       alt="Image"
                       className="rounded-sm object-cover"
                       fill
+                      unoptimized
                     />
                   </AspectRatio>
                 </div>

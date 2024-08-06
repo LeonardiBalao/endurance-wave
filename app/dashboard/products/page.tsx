@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Dashboard() {
   const categories = await getCategories();
@@ -24,22 +25,25 @@ export default async function Dashboard() {
         <MainCard
           title="Reviews"
           description="Bla bla bla"
-          className="flex justify-center"
+          className="flex flex-col justify-center"
         >
           {reviews.map((r, i) => (
-            <Card key={r.id} className="max-w-screen-lg border-none">
+            <Card key={r.id} className="max-w-screen-lg">
               <CardHeader>
                 <CardTitle className="font-bold text-2xl">{r.title}</CardTitle>
                 <CardDescription className="flex flex-col gap-4">
                   <span className="text-md">{r.description}</span>
-                  <span>{r.createdAt.toLocaleDateString()}</span>
                 </CardDescription>
+                <div className="flex gap-2">
+                  {r.tags.map((t, i) => (
+                    <Badge variant={"secondary"} key={i}>
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+                <span>{r.createdAt.toLocaleDateString()}</span>
               </CardHeader>
               <CardContent>
-                <div
-                  className="posts"
-                  dangerouslySetInnerHTML={{ __html: r.introduction }}
-                />
                 <div className="w-full py-10">
                   <AspectRatio ratio={16 / 9}>
                     <Image
@@ -47,6 +51,29 @@ export default async function Dashboard() {
                       alt={r.mainImageALT}
                       className="rounded-sm object-cover"
                       fill
+                      unoptimized
+                    />
+                  </AspectRatio>
+                </div>
+                <div className="flex gap-2">
+                  {r.keywords.map((t, i) => (
+                    <Badge variant={"outline"} key={i}>
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+                <div
+                  className="posts"
+                  dangerouslySetInnerHTML={{ __html: r.introduction }}
+                />
+                <div className="w-full py-10">
+                  <AspectRatio ratio={16 / 9}>
+                    <Image
+                      src={r.introductionImageURL}
+                      alt={r.introductionImageALT}
+                      className="rounded-sm object-cover"
+                      fill
+                      unoptimized
                     />
                   </AspectRatio>
                 </div>
@@ -54,6 +81,17 @@ export default async function Dashboard() {
                   className="posts"
                   dangerouslySetInnerHTML={{ __html: r.comparative }}
                 />
+                <div className="w-full py-10">
+                  <AspectRatio ratio={16 / 9}>
+                    <Image
+                      src={r.comparativeImageURL}
+                      alt={r.comparativeImageALT}
+                      className="rounded-sm object-cover"
+                      fill
+                      unoptimized
+                    />
+                  </AspectRatio>
+                </div>
               </CardContent>
               <CardFooter>
                 <div

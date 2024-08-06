@@ -67,7 +67,7 @@ export default function TiptapComparative({ val }: { val: string }) {
       {editor && (
         <div className="control-group">
           <div className="button-group flex gap-4">
-            <button
+            <div
               onClick={() =>
                 editor.chain().focus().toggleHeading({ level: 2 }).run()
               }
@@ -76,8 +76,8 @@ export default function TiptapComparative({ val }: { val: string }) {
               }
             >
               <Heading2 size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() =>
                 editor.chain().focus().toggleHeading({ level: 3 }).run()
               }
@@ -86,46 +86,46 @@ export default function TiptapComparative({ val }: { val: string }) {
               }
             >
               <Heading3 size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().setParagraph().run()}
               className={editor.isActive("paragraph") ? "is-active" : ""}
             >
               <ParkingSquareIcon size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().toggleBold().run()}
               className={editor.isActive("bold") ? "is-active" : ""}
             >
               <BoldIcon size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().toggleItalic().run()}
               className={editor.isActive("italic") ? "is-active" : ""}
             >
               <Italic size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().toggleStrike().run()}
               className={editor.isActive("strike") ? "is-active" : ""}
             >
               <Strikethrough size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().toggleHighlight().run()}
               className={editor.isActive("highlight") ? "is-active" : ""}
             >
               <Highlighter size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().setTextAlign("left").run()}
               className={
                 editor.isActive({ textAlign: "left" }) ? "is-active" : ""
               }
             >
               <AlignLeft size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() =>
                 editor.chain().focus().setTextAlign("center").run()
               }
@@ -134,16 +134,16 @@ export default function TiptapComparative({ val }: { val: string }) {
               }
             >
               <AlignCenter size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => editor.chain().focus().setTextAlign("right").run()}
               className={
                 editor.isActive({ textAlign: "right" }) ? "is-active" : ""
               }
             >
               <AlignRight size={14} />
-            </button>
-            <button
+            </div>
+            <div
               onClick={() =>
                 editor.chain().focus().setTextAlign("justify").run()
               }
@@ -152,7 +152,7 @@ export default function TiptapComparative({ val }: { val: string }) {
               }
             >
               <AlignJustify size={14} />
-            </button>
+            </div>
           </div>
         </div>
       )}

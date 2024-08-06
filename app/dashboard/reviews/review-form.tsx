@@ -4,6 +4,7 @@ import MainCard from "@/components/structural/main-card";
 import { Category, Subcategory } from "@prisma/client";
 // import { useReviewStore } from "@/lib/store/review-store";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Slider } from "@/components/ui/slider";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -29,7 +30,7 @@ import {
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import { CheckIcon, Trash, Upload, UploadCloud } from "lucide-react";
+import { CheckIcon, Star, Trash, Upload, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,15 +47,19 @@ import { toast } from "sonner";
 import TiptapIntroduction from "@/components/structural/tiptap-introduction";
 import TiptapConclusion from "@/components/structural/tiptap-conclusion";
 import TiptapComparative from "@/components/structural/tiptap-comparative";
+import { Label } from "@/components/ui/label";
+import { createReview } from "@/server/actions/category/create-review";
+import { Toaster } from "@/components/ui/sonner";
 
 interface ReviewFormProps {
   categories: Category[];
+  userId: string;
 }
 
-export default function ReviewForm({ categories }: ReviewFormProps) {
+export default function ReviewForm({ categories, userId }: ReviewFormProps) {
   const router = useRouter();
   const [base64Images, setBase64Images] = useState<string[]>([]);
-
+  const [rating, setRating] = useState(1);
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     const file = event.target.files[0];
@@ -71,17 +76,15 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
   const form = useForm<z.infer<typeof reviewSchema>>({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
+      title: "",
       category: "",
       subcategory: "",
-      description: "",
       keywords: "",
-      introduction: "",
-      conclusion: "",
-      comparative: "",
-      productsId: [""],
-      rating: 1,
       tags: "",
-      title: "",
+      description: "",
+      introduction: "",
+      comparative: "",
+      conclusion: "",
     },
     mode: "onChange",
   });
@@ -95,8 +98,19 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
 
-  const onSubmit = (values: z.infer<typeof reviewSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof reviewSchema>) => {
+    const review = {
+      ...values,
+      rating: rating,
+      base64: base64Images,
+      userId: userId,
+    };
+    console.log(review);
+    const { error, success } = await createReview(review);
+    if (error) {
+      return toast.error(`${error}`);
+    }
+    toast.success(success);
   };
 
   useEffect(() => {
@@ -262,6 +276,8 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                   </FormItem>
                 )}
               />
+            </div>
+            <div>
               <FormField
                 control={form.control}
                 name="keywords"
@@ -275,6 +291,12 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                         placeholder="shoes, shirts..."
                       />
                     </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -292,6 +314,12 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                         placeholder="#male, #running..."
                       />
                     </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -373,6 +401,26 @@ export default function ReviewForm({ categories }: ReviewFormProps) {
                 <Trash onClick={() => setBase64Images([])} />
               </div>
             )}
+            <div className="flex flex-col gap-4">
+              <FormLabel>Rating</FormLabel>
+              <div className="flex gap-2 items-center">
+                <Slider
+                  className="w-[200px]"
+                  defaultValue={[rating]}
+                  max={5}
+                  step={1}
+                  onValueChange={(vals) => {
+                    setRating(vals[0]);
+                  }}
+                />
+                {rating}
+                {Array(rating)
+                  .fill("")
+                  .map((v, i) => (
+                    <Star key={i} fill="yellow" size={14} />
+                  ))}
+              </div>
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>

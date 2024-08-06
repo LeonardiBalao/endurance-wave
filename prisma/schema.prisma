@@ -110,8 +110,7 @@ model Product {
   categoryId      String
   subcategoryId   String
   name            String
-  description     String      @db.VarChar(1000)
-  metaDescription String      @db.VarChar(160)
+  description     String      @db.VarChar(160)
   keywords        String[]
   characteristics String[]
   brand           String
@@ -136,13 +135,14 @@ model Review {
   categoryId    String
   subcategoryId String
   productsId    String[]
-  introduction  String      @db.VarChar(300)
+  introduction  String      @db.VarChar(1000)
   title         String      @db.VarChar(60)
   description   String      @db.VarChar(160)
   keywords      String[]
-  comparative   String      @db.VarChar(400)
-  conclusion    String      @db.VarChar(300)
+  comparative   String      @db.VarChar(1000)
+  conclusion    String      @db.VarChar(1000)
   rating        Float
+  base64Images  String[]
   tags          String[]
   likes         Int         @default(72)
   category      Category    @relation(fields: [categoryId], references: [id])
@@ -150,7 +150,6 @@ model Review {
   user          User        @relation(fields: [userId], references: [id])
   Comment       Comment[]
   createdAt     DateTime    @default(now())
-  Image         Image[]
 }
 
 model Comment {
@@ -176,6 +175,5 @@ model Image {
   alt       String
   reviewId  String?
   productId String?
-  Review    Review?  @relation(fields: [reviewId], references: [id])
   Product   Product? @relation(fields: [productId], references: [id])
 }

@@ -21,87 +21,81 @@ export default async function Dashboard() {
 
   return (
     <>
-      <Main className="flex flex-col gap-10 bg-secondary">
-        <MainCard
-          title="Reviews"
-          description="Bla bla bla"
-          className="flex flex-col justify-center"
-        >
-          {reviews.map((r, i) => (
-            <Card key={r.id} className="max-w-screen-lg">
-              <CardHeader>
-                <CardTitle className="font-bold text-2xl">{r.title}</CardTitle>
-                <CardDescription className="flex flex-col gap-4">
-                  <span className="text-md">{r.description}</span>
-                </CardDescription>
-                <div className="flex gap-2">
-                  {r.tags.map((t, i) => (
-                    <Badge variant={"secondary"} key={i}>
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
-                <span>{r.createdAt.toLocaleDateString()}</span>
-              </CardHeader>
-              <CardContent>
-                <div className="w-full py-10">
-                  <AspectRatio ratio={16 / 9}>
-                    <Image
-                      src={r.mainImageURL}
-                      alt={r.mainImageALT}
-                      className="rounded-sm object-cover"
-                      fill
-                      unoptimized
-                    />
-                  </AspectRatio>
-                </div>
-                <div className="flex gap-2">
-                  {r.keywords.map((t, i) => (
-                    <Badge variant={"outline"} key={i}>
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
-                <div
-                  className="posts"
-                  dangerouslySetInnerHTML={{ __html: r.introduction }}
-                />
-                <div className="w-full py-10">
-                  <AspectRatio ratio={16 / 9}>
-                    <Image
-                      src={r.introductionImageURL}
-                      alt={r.introductionImageALT}
-                      className="rounded-sm object-cover"
-                      fill
-                      unoptimized
-                    />
-                  </AspectRatio>
-                </div>
-                <div
-                  className="posts"
-                  dangerouslySetInnerHTML={{ __html: r.comparative }}
-                />
-                <div className="w-full py-10">
-                  <AspectRatio ratio={16 / 9}>
-                    <Image
-                      src={r.comparativeImageURL}
-                      alt={r.comparativeImageALT}
-                      className="rounded-sm object-cover"
-                      fill
-                      unoptimized
-                    />
-                  </AspectRatio>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <div
-                  className="posts"
-                  dangerouslySetInnerHTML={{ __html: r.conclusion }}
-                />
-              </CardFooter>
-            </Card>
-          ))}
-        </MainCard>
+      <Main className="bg-secondary flex flex-col gap-10">
+        {reviews.map((r, i) => (
+          <Card key={r.id} className="max-w-screen-lg">
+            <CardHeader>
+              <CardTitle className="font-bold text-2xl">{r.title}</CardTitle>
+              <CardDescription className="flex flex-col gap-4">
+                <span className="text-md">{r.description}</span>
+              </CardDescription>
+              <div className="flex gap-2">
+                {r.tags.map((t, i) => (
+                  <Badge variant={"secondary"} key={i}>
+                    {t}
+                  </Badge>
+                ))}
+              </div>
+              <span>{r.createdAt.toLocaleDateString()}</span>
+            </CardHeader>
+            <CardContent>
+              <div className="w-full py-10">
+                <AspectRatio ratio={16 / 9}>
+                  <Image
+                    src={r.mainImageURL}
+                    alt={r.mainImageALT}
+                    className="rounded-sm object-cover"
+                    fill
+                    unoptimized
+                  />
+                </AspectRatio>
+              </div>
+              <div className="flex gap-2">
+                {r.keywords.map((t, i) => (
+                  <Badge variant={"outline"} key={i}>
+                    {t}
+                  </Badge>
+                ))}
+              </div>
+              <div
+                className="posts"
+                dangerouslySetInnerHTML={{ __html: r.introduction }}
+              />
+              <div className="w-full py-10">
+                <AspectRatio ratio={16 / 9}>
+                  <Image
+                    src={r.introductionImageURL}
+                    alt={r.introductionImageALT}
+                    className="rounded-sm object-cover"
+                    fill
+                    unoptimized
+                  />
+                </AspectRatio>
+              </div>
+              <div
+                className="posts"
+                dangerouslySetInnerHTML={{ __html: r.comparative }}
+              />
+              <div className="w-full py-10">
+                <AspectRatio ratio={16 / 9}>
+                  <Image
+                    src={r.comparativeImageURL}
+                    alt={r.comparativeImageALT}
+                    className="rounded-sm object-cover"
+                    fill
+                    unoptimized
+                  />
+                </AspectRatio>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <div
+                className="posts"
+                dangerouslySetInnerHTML={{ __html: r.conclusion }}
+              />
+            </CardFooter>
+          </Card>
+        ))}
       </Main>
     </>
   );

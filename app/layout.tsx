@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en-US" suppressHydrationWarning>
       <body
         className={cn(
-          "flex min-h-svh w-full flex-col bg-background",
+          "flex min-h-svh w-full flex-col bg-secondary",
           fontSans.className
         )}
       >

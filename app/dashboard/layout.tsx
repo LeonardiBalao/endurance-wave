@@ -61,7 +61,7 @@ export default async function DashboardLayout({
   const allLinks = [...userLinks, ...adminLinks];
 
   return (
-    <div className={cn("flex min-h-svh w-full flex-col bg-background", "")}>
+    <div className={cn("flex min-h-svh w-full flex-col bg-secondary", "")}>
       <DashboardNav />
       {children}
     </div>

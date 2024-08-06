@@ -50,6 +50,8 @@ import TiptapComparative from "@/components/structural/tiptap-comparative";
 import { Label } from "@/components/ui/label";
 import { createReview } from "@/server/actions/category/create-review";
 import { Toaster } from "@/components/ui/sonner";
+import { UploadButton } from "@/app/api/uploadthing/upload";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface ReviewFormProps {
   categories: Category[];
@@ -58,20 +60,10 @@ interface ReviewFormProps {
 
 export default function ReviewForm({ categories, userId }: ReviewFormProps) {
   const router = useRouter();
-  const [base64Images, setBase64Images] = useState<string[]>([]);
-  const [rating, setRating] = useState(1);
-  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
-    const file = event.target.files[0];
-    if (!file) {
-      return toast.error("File not found.");
-    }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setBase64Images([...base64Images, reader.result as string]);
-    };
-  };
+
+  const [loading, setLoading] = useState(false);
+  const [openCategory, setOpenCategory] = useState(false);
+  const [openSubcategory, setOpenSubcategory] = useState(false);
 
   const form = useForm<z.infer<typeof reviewSchema>>({
     resolver: zodResolver(reviewSchema),
@@ -85,15 +77,11 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
       introduction: "",
       comparative: "",
       conclusion: "",
+      introductionImageURL: "",
+      introductionImageALT: "",
     },
     mode: "onChange",
   });
-
-  // const { addCategoryId } = useReviewStore();
-
-  const [loading, setLoading] = useState(false);
-  const [openCategory, setOpenCategory] = useState(false);
-  const [openSubcategory, setOpenSubcategory] = useState(false);
 
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
@@ -101,8 +89,6 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
   const onSubmit = async (values: z.infer<typeof reviewSchema>) => {
     const review = {
       ...values,
-      rating: rating,
-      base64: base64Images,
       userId: userId,
     };
     console.log(review);
@@ -135,6 +121,133 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="mainImageURL"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-start items-start gap-4">
+                  <div className="flex gap-4 w-[350px]">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Main Image</FormLabel>
+                      {form.getValues("mainImageURL") && (
+                        <div className="w-[250px]">
+                          <AspectRatio ratio={16 / 9}>
+                            <Image
+                              src={form.getValues("mainImageURL")}
+                              alt="Photo by Drew Beamer"
+                              fill
+                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                            />
+                          </AspectRatio>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-4 justify-between items-end">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Image alternative text</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="lion"
+                        onChange={(event) =>
+                          form.setValue("mainImageALT", event.target.value)
+                        }
+                      />
+                    </div>
+                    <UploadButton
+                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
+                      endpoint="imageUploader"
+                      onUploadBegin={() => {
+                        setLoading(true);
+                      }}
+                      onUploadError={(err) => {
+                        form.setError("mainImageURL", {
+                          type: "validate",
+                          message: err.message,
+                        });
+                        setLoading(false);
+                        return;
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue("mainImageURL", res[0].url);
+                        setLoading(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready)
+                            return (
+                              <div className="flex gap-2 items-center">
+                                <Upload size={16} />
+                                Add Image
+                              </div>
+                            );
+                          return <div>Uploading...</div>;
+                        },
+                      }}
+                    />
+                  </div>
+
+                  <FormControl>
+                    <Input
+                      placeholder="Comparative Image"
+                      type="hidden"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex gap-4 items-center">
+              <FormField
+                control={form.control}
+                name="keywords"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO Keywords</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="shoes, shirts..."
+                      />
+                    </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="#male, #running..."
+                      />
+                    </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="title"
@@ -277,55 +390,6 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                 )}
               />
             </div>
-            <div>
-              <FormField
-                control={form.control}
-                name="keywords"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>SEO Keywords</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        {...field}
-                        placeholder="shoes, shirts..."
-                      />
-                    </FormControl>
-                    {field.value &&
-                      field.value.split(",").map((s, i) => (
-                        <Badge className="mr-2" key={i}>
-                          {s}
-                        </Badge>
-                      ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tags</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        {...field}
-                        placeholder="#male, #running..."
-                      />
-                    </FormControl>
-                    {field.value &&
-                      field.value.split(",").map((s, i) => (
-                        <Badge className="mr-2" key={i}>
-                          {s}
-                        </Badge>
-                      ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
             <FormField
               control={form.control}
               name="description"
@@ -354,6 +418,87 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
             />
             <FormField
               control={form.control}
+              name="introductionImageURL"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-start items-start gap-4">
+                  <div className="flex gap-4 w-[350px]">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Introduction Image</FormLabel>
+                      {form.getValues("introductionImageURL") && (
+                        <div className="w-[250px]">
+                          <AspectRatio ratio={16 / 9}>
+                            <Image
+                              src={form.getValues("introductionImageURL")}
+                              alt="Photo by Drew Beamer"
+                              fill
+                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                            />
+                          </AspectRatio>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-4 justify-between items-end">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Image alternative text</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="lion"
+                        onChange={(event) =>
+                          form.setValue(
+                            "introductionImageALT",
+                            event.target.value
+                          )
+                        }
+                      />
+                    </div>
+                    <UploadButton
+                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
+                      endpoint="imageUploader"
+                      onUploadBegin={() => {
+                        setLoading(true);
+                      }}
+                      onUploadError={(err) => {
+                        form.setError("introductionImageURL", {
+                          type: "validate",
+                          message: err.message,
+                        });
+                        setLoading(false);
+                        return;
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue("introductionImageURL", res[0].url);
+                        setLoading(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready)
+                            return (
+                              <div className="flex gap-2 items-center">
+                                <Upload size={16} />
+                                Add Image
+                              </div>
+                            );
+                          return <div>Uploading...</div>;
+                        },
+                      }}
+                    />
+                  </div>
+
+                  <FormControl>
+                    <Input
+                      placeholder="Comparative Image"
+                      type="hidden"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="comparative"
               render={({ field }) => (
                 <FormItem>
@@ -361,7 +506,86 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                   <FormControl>
                     <TiptapComparative val={field.value} />
                   </FormControl>
-                  <FormDescription>{field.value}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="comparativeImageURL"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-start items-start gap-4">
+                  <div className="flex gap-4 w-[350px]">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Comparative Image</FormLabel>
+                      {form.getValues("comparativeImageURL") && (
+                        <div className="w-[250px]">
+                          <AspectRatio ratio={16 / 9}>
+                            <Image
+                              src={form.getValues("comparativeImageURL")}
+                              alt="Photo by Drew Beamer"
+                              fill
+                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                            />
+                          </AspectRatio>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-4 justify-between items-end">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Image alternative text</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="lion"
+                        onChange={(event) =>
+                          form.setValue(
+                            "comparativeImageALT",
+                            event.target.value
+                          )
+                        }
+                      />
+                    </div>
+                    <UploadButton
+                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
+                      endpoint="imageUploader"
+                      onUploadBegin={() => {
+                        setLoading(true);
+                      }}
+                      onUploadError={(err) => {
+                        form.setError("comparativeImageURL", {
+                          type: "validate",
+                          message: err.message,
+                        });
+                        setLoading(false);
+                        return;
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue("comparativeImageURL", res[0].url);
+                        setLoading(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready)
+                            return (
+                              <div className="flex gap-2 items-center">
+                                <Upload size={16} />
+                                Add Image
+                              </div>
+                            );
+                          return <div>Uploading...</div>;
+                        },
+                      }}
+                    />
+                  </div>
+                  <FormControl>
+                    <Input
+                      placeholder="Introduction Image"
+                      type="hidden"
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -379,48 +603,6 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                 </FormItem>
               )}
             />
-            <Input
-              className="w-[400px] cursor-pointer"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              placeholder="Upload"
-            />
-            {base64Images.length !== 0 && (
-              <div className="flex gap-4 items-center">
-                {base64Images.map((img, i) => (
-                  <Image
-                    key={i}
-                    src={img}
-                    height={50}
-                    width={50}
-                    alt="photo"
-                    className="rounded-lg"
-                  />
-                ))}
-                <Trash onClick={() => setBase64Images([])} />
-              </div>
-            )}
-            <div className="flex flex-col gap-4">
-              <FormLabel>Rating</FormLabel>
-              <div className="flex gap-2 items-center">
-                <Slider
-                  className="w-[200px]"
-                  defaultValue={[rating]}
-                  max={5}
-                  step={1}
-                  onValueChange={(vals) => {
-                    setRating(vals[0]);
-                  }}
-                />
-                {rating}
-                {Array(rating)
-                  .fill("")
-                  .map((v, i) => (
-                    <Star key={i} fill="yellow" size={14} />
-                  ))}
-              </div>
-            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>

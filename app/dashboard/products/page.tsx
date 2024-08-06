@@ -6,10 +6,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default async function Dashboard() {
   const categories = await getCategories();
@@ -18,24 +20,47 @@ export default async function Dashboard() {
 
   return (
     <>
-      <Main>
-        <MainCard title="Reviews" description="Bla bla bla">
+      <Main className="flex flex-col gap-10 bg-secondary">
+        <MainCard
+          title="Reviews"
+          description="Bla bla bla"
+          className="flex justify-center"
+        >
           {reviews.map((r, i) => (
-            <Card key={r.id}>
+            <Card key={r.id} className="max-w-screen-lg border-none">
               <CardHeader>
-                <CardTitle>{r.title}</CardTitle>
-                <CardDescription>{r.description}</CardDescription>
+                <CardTitle className="font-bold text-2xl">{r.title}</CardTitle>
+                <CardDescription className="flex flex-col gap-4">
+                  <span className="text-md">{r.description}</span>
+                  <span>{r.createdAt.toLocaleDateString()}</span>
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <span>{r.introduction}</span>
-                <Image
-                  src={r.base64Images[0]}
-                  alt="dadasda"
-                  width={500}
-                  height={500}
+                <div
+                  className="posts"
+                  dangerouslySetInnerHTML={{ __html: r.introduction }}
                 />
-                <div>{r.comparative}</div>
+                <div className="w-full py-10">
+                  <AspectRatio ratio={16 / 9}>
+                    <Image
+                      src={r.mainImageURL}
+                      alt={r.mainImageALT}
+                      className="rounded-sm object-cover"
+                      fill
+                    />
+                  </AspectRatio>
+                </div>
+                <div
+                  className="posts"
+                  dangerouslySetInnerHTML={{ __html: r.comparative }}
+                />
               </CardContent>
+              <CardFooter>
+                <div
+                  className="posts"
+                  dangerouslySetInnerHTML={{ __html: r.conclusion }}
+                />
+              </CardFooter>
             </Card>
           ))}
         </MainCard>

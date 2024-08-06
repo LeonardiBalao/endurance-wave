@@ -13,8 +13,12 @@ interface ReviewProps {
   introduction: string;
   comparative: string;
   conclusion: string;
-  base64: string[];
-  rating: number;
+  mainImageURL: string;
+  mainImageALT: string;
+  introductionImageURL: string;
+  introductionImageALT: string;
+  comparativeImageURL: string;
+  comparativeImageALT: string;
 }
 
 export const createReview = async (review: ReviewProps) => {
@@ -28,9 +32,16 @@ export const createReview = async (review: ReviewProps) => {
     !review.title
   )
     return { error: "No main text or title." };
+  if (
+    !review.mainImageALT ||
+    !review.mainImageURL ||
+    !review.comparativeImageURL ||
+    !review.comparativeImageALT ||
+    !review.introductionImageURL ||
+    !review.introductionImageALT
+  )
+    return { error: "Missing image property" };
   if (!review.keywords || !review.tags) return { error: "No keywords or tags" };
-  if (!review.base64) return { error: "No images" };
-  if (!review.rating) return { error: "Add rating" };
 
   const category = await prisma.category.findFirst({
     where: {
@@ -59,8 +70,12 @@ export const createReview = async (review: ReviewProps) => {
       introduction: review.introduction,
       comparative: review.comparative,
       conclusion: review.conclusion,
-      rating: review.rating,
-      base64Images: review.base64,
+      comparativeImageALT: review.comparativeImageALT,
+      comparativeImageURL: review.comparativeImageURL,
+      mainImageURL: review.mainImageURL,
+      introductionImageALT: review.introductionImageALT,
+      introductionImageURL: review.introductionImageURL,
+      mainImageALT: review.mainImageALT,
     },
   });
 

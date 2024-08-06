@@ -126,30 +126,34 @@ model Product {
   category        Category    @relation(fields: [categoryId], references: [id])
   subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
   createdAt       DateTime    @default(now())
-  Image           Image[]
 }
 
 model Review {
-  id            String      @id @default(uuid())
-  userId        String
-  categoryId    String
-  subcategoryId String
-  productsId    String[]
-  introduction  String      @db.VarChar(1000)
-  title         String      @db.VarChar(60)
-  description   String      @db.VarChar(160)
-  keywords      String[]
-  comparative   String      @db.VarChar(1000)
-  conclusion    String      @db.VarChar(1000)
-  rating        Float
-  base64Images  String[]
-  tags          String[]
-  likes         Int         @default(72)
-  category      Category    @relation(fields: [categoryId], references: [id])
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-  user          User        @relation(fields: [userId], references: [id])
-  Comment       Comment[]
-  createdAt     DateTime    @default(now())
+  id                   String      @id @default(uuid())
+  userId               String
+  categoryId           String
+  subcategoryId        String
+  productsId           String[]
+  keywords             String[]
+  tags                 String[]
+  rating               Float       @default(1)
+  mainImageURL         String
+  mainImageALT         String
+  title                String      @db.VarChar(60)
+  description          String      @db.VarChar(160)
+  introduction         String      @db.VarChar(5000)
+  introductionImageURL String
+  introductionImageALT String
+  comparative          String      @db.VarChar(5000)
+  comparativeImageURL  String
+  comparativeImageALT  String
+  conclusion           String      @db.VarChar(5000)
+  likes                Int         @default(72)
+  createdAt            DateTime    @default(now())
+  category             Category    @relation(fields: [categoryId], references: [id])
+  subcategory          Subcategory @relation(fields: [subcategoryId], references: [id])
+  user                 User        @relation(fields: [userId], references: [id])
+  Comment              Comment[]
 }
 
 model Comment {
@@ -167,13 +171,4 @@ enum Gender {
   MALE
   FEMALE
   UNISEX
-}
-
-model Image {
-  id        String   @id @default(uuid())
-  data      String
-  alt       String
-  reviewId  String?
-  productId String?
-  Product   Product? @relation(fields: [productId], references: [id])
 }

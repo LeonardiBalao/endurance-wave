@@ -58,3 +58,25 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+/* UPLOAD THING */
+
+[data-ut-element="button"][data-state="uploading"]::after {
+  @apply bg-primary/50;
+}
+
+/* POSTS STYLING */
+
+.posts h2 {
+  font-size: 1.5em;
+  margin-bottom: 24px;
+}
+
+.posts h3 {
+  font-size: 1.25em;
+  margin-bottom: 24px;
+}
+
+.posts p {
+  line-height: 2em;
+}

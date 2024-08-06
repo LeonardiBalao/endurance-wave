@@ -1,7 +1,9 @@
+import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
 import { Milestone } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
+import DashboardNav from "./nav";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -58,5 +60,10 @@ export default async function DashboardLayout({
 
   const allLinks = [...userLinks, ...adminLinks];
 
-  return <div>{children}</div>;
+  return (
+    <div className={cn("flex min-h-svh w-full flex-col bg-background", "")}>
+      <DashboardNav />
+      {children}
+    </div>
+  );
 }

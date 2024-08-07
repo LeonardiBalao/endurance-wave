@@ -105,27 +105,40 @@ model Subcategory {
   Product    Product[]
 }
 
+model Brand {
+  id      String    @id @default(uuid())
+  name    String
+  Product Product[]
+}
+
 model Product {
-  id              String      @id @default(uuid())
-  categoryId      String
-  subcategoryId   String
-  name            String
-  description     String      @db.VarChar(160)
-  keywords        String[]
-  characteristics String[]
-  brand           String
-  videoURL        String[]
-  advantages      String[]
-  disadvantages   String[]
-  affiliateURL    String[]
-  rating          Float
-  likes           Int         @default(7)
-  tags            String[]
-  price           Float
-  gender          Gender
-  category        Category    @relation(fields: [categoryId], references: [id])
-  subcategory     Subcategory @relation(fields: [subcategoryId], references: [id])
-  createdAt       DateTime    @default(now())
+  id                String      @id @default(uuid())
+  categoryId        String
+  subcategoryId     String
+  name              String
+  mainImageURL      String
+  mainImageALT      String
+  secondaryImageURL String
+  secondaryImageALT String
+  description       String      @db.VarChar(160)
+  keywords          String[]
+  characteristics   String[]
+  brand             String
+  about             String      @db.VarChar(5000)
+  videoURL          String[]
+  advantages        String[]
+  disadvantages     String[]
+  affiliateURL      String[]
+  rating            Float       @default(5)
+  likes             Int         @default(7)
+  tags              String[]
+  price             Float
+  gender            Gender
+  category          Category    @relation(fields: [categoryId], references: [id])
+  subcategory       Subcategory @relation(fields: [subcategoryId], references: [id])
+  createdAt         DateTime    @default(now())
+  Brand             Brand?      @relation(fields: [brandId], references: [id])
+  brandId           String?
 }
 
 model Review {

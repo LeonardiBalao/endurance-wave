@@ -12,7 +12,6 @@ export default async function Dashboard() {
   return (
     <>
       <Main className="bg-secondary flex flex-col gap-10">
-        {session.user.id}
         <ProductForm userId={session.user.id} categories={categories} />
       </Main>
     </>

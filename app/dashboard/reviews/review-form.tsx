@@ -77,8 +77,12 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
       introduction: "",
       comparative: "",
       conclusion: "",
-      introductionImageURL: "",
+      introductionImageURL: "/asdsda",
       introductionImageALT: "",
+      mainImageURL: "asdsda",
+      mainImageALT: "",
+      comparativeImageALT: "",
+      comparativeImageURL: "asdsda",
     },
     mode: "onChange",
   });
@@ -137,6 +141,7 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                               alt="Photo by Drew Beamer"
                               fill
                               className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                              unoptimized
                             />
                           </AspectRatio>
                         </div>
@@ -432,6 +437,7 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                               alt="Photo by Drew Beamer"
                               fill
                               className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                              unoptimized
                             />
                           </AspectRatio>
                         </div>
@@ -526,6 +532,7 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                               alt="Photo by Drew Beamer"
                               fill
                               className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                              unoptimized
                             />
                           </AspectRatio>
                         </div>

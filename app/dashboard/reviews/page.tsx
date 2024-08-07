@@ -12,7 +12,6 @@ export default async function Dashboard() {
   return (
     <>
       <Main>
-        {session?.user.id}
         <ReviewForm categories={categories} userId={session?.user.id} />
       </Main>
     </>

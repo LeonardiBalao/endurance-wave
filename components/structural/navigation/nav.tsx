@@ -23,7 +23,6 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ThemeButtons from "./theme-buttons";
 import Logo from "./logo";
-import NavMenu from "./nav-menu";
 import { MegaMenu } from "./mega-menu";
 
 export default async function Nav() {

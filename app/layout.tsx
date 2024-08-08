@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Poppins as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import Nav from "@/components/structural/navigation/nav";
 
 const fontSans = FontSans({
   weight: ["100", "200", "300", "400", "500"],

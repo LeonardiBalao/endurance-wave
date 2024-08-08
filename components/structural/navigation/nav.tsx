@@ -23,20 +23,23 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ThemeButtons from "./theme-buttons";
 import Logo from "./logo";
+import NavMenu from "./nav-menu";
 
 export default async function Nav() {
   const session = await auth();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between gap-2 px-4 md:px-6 bg-background">
+    <header className="sticky top-0 z-30 flex h-28 w-full items-center justify-between gap-2 px-4 md:px-6 bg-background">
       <nav className="text-lg font-medium md:flex md:flex-row md:items-center md:justify-between md:gap-5 md:text-sm lg:gap-6">
         <Logo
           showSlogan
           className="flex items-center gap-2 text-lg font-semibold justify-center"
-          height={50}
-          width={50}
+          height={100}
+          width={100}
         />
       </nav>
+
+      <NavMenu />
       <div className="flex items-center gap-2">
         <ThemeButtons className="my-2" />
         <Sheet>

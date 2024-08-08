@@ -3,7 +3,7 @@ import { auth } from "@/server/auth";
 import { Milestone } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
-import DashboardNav from "./nav";
+import DashboardNav from "../../components/structural/navigation/dashboard-nav";
 
 interface DashboardLayoutProps {
   children: ReactNode;

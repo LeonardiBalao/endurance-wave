@@ -100,7 +100,7 @@ model Subcategory {
   id         String    @id @default(uuid())
   name       String
   categoryId String
-  Category   Category  @relation(fields: [categoryId], references: [id])
+  Category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   Review     Review[]
   Product    Product[]
 }

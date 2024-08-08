@@ -41,6 +41,7 @@ import {
 import { Category, Subcategory } from "@prisma/client";
 import MainCard from "@/components/structural/main-card";
 import { getSubcategories } from "@/server/actions/category/get-subcategories";
+import SecondaryCard from "@/components/structural/secondary-card";
 
 interface NewSubcategoryProps {
   categories: Category[];
@@ -56,6 +57,7 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
     defaultValues: {
       category: "",
       subcategory: "",
+      description: "",
     },
   });
 
@@ -72,11 +74,7 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
   };
 
   return (
-    <MainCard
-      title="New Subcategory"
-      description="Create a new subcategory"
-      titleClassSize="text-lg"
-    >
+    <SecondaryCard title="Create subcategory" titleClassSize="text-lg">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -86,15 +84,15 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel></FormLabel>
+              <FormItem className="flex flex-col gap-2">
+                <FormLabel>Category</FormLabel>
                 <Popover open={openCategory} onOpenChange={setOpenCategory}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       role="combobox"
                       aria-expanded={openCategory}
-                      className="w-[200px] justify-between"
+                      className="w-full justify-between"
                     >
                       {field.value ? field.value : "Select category"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -143,33 +141,48 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
               </FormItem>
             )}
           />
-          <div className="flex items-end justify-between gap-1">
-            <FormField
-              control={form.control}
-              name="subcategory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g: Running shoes"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              variant={"ghost"}
-              className={cn("", loading ? "animate-pulse" : "")}
-            >
-              <PlusCircle size={18} />
-            </Button>
-          </div>
+          <FormField
+            control={form.control}
+            name="subcategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Subcategory</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g: Running shoes"
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g: Running shoes"
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            className={cn("", loading ? "animate-pulse" : "")}
+          >
+            Create
+          </Button>
         </form>
       </Form>
-    </MainCard>
+    </SecondaryCard>
   );
 }

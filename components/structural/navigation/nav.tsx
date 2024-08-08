@@ -24,6 +24,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ThemeButtons from "./theme-buttons";
 import Logo from "./logo";
 import NavMenu from "./nav-menu";
+import { MegaMenu } from "./mega-menu";
 
 export default async function Nav() {
   const session = await auth();
@@ -39,7 +40,7 @@ export default async function Nav() {
         />
       </nav>
 
-      <NavMenu />
+      <MegaMenu />
       <div className="flex items-center gap-2">
         <ThemeButtons className="my-2" />
         <Sheet>

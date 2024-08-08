@@ -97,12 +97,13 @@ model Category {
 }
 
 model Subcategory {
-  id         String    @id @default(uuid())
-  name       String
-  categoryId String
-  Category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  Review     Review[]
-  Product    Product[]
+  id          String    @id @default(uuid())
+  name        String
+  categoryId  String
+  description String
+  Category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Review      Review[]
+  Product     Product[]
 }
 
 model Brand {

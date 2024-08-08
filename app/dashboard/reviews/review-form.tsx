@@ -77,12 +77,15 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
       introduction: "",
       comparative: "",
       conclusion: "",
-      introductionImageURL: "/asdsda",
+      introductionImageURL:
+        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
       introductionImageALT: "",
-      mainImageURL: "asdsda",
+      mainImageURL:
+        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
       mainImageALT: "",
       comparativeImageALT: "",
-      comparativeImageURL: "asdsda",
+      comparativeImageURL:
+        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
     },
     mode: "onChange",
   });

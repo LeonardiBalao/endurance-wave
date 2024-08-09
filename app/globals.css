@@ -69,14 +69,25 @@
 
 .posts h2 {
   font-size: 1.5em;
-  margin-bottom: 24px;
+  margin: 24px 0px;
 }
 
 .posts h3 {
   font-size: 1.25em;
-  margin-bottom: 24px;
+  margin: 24px 0px;
 }
 
 .posts p {
   line-height: 2em;
+}
+
+.posts ul li {
+  list-style-type: disc;
+  margin-left: 24px;
+}
+
+.posts ol li {
+  list-style: decimal;
+  margin-left: 16px;
+  padding-left: 8px;
 }

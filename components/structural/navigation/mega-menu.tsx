@@ -46,7 +46,7 @@ export function MegaMenu() {
     fetchData();
   }, []);
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden md:block">
       <NavigationMenuList>
         {categories.map((category) => (
           <NavigationMenuItem key={category.id}>

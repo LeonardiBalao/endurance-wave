@@ -20,12 +20,9 @@ interface ReviewElementProps {
 
 export default function ReviewElement({ review }: ReviewElementProps) {
   return (
-    <Card key={review.id} className="max-w-screen-sm md:max-w-screen-lg">
+    <Card key={review.id} className="max-w-screen-sm md:max-w-screen-xl posts">
       <CardHeader>
-        <Badge
-          variant={"secondary"}
-          className="leading-5 font-serif text-sm rounded drop-shadow-2xl shadow md:w-[350px] border-b-gray-300 mb-4"
-        >
+        <Badge className="leading-5 font-serif text-sm rounded drop-shadow-2xl shadow md:w-[350px] border-b-gray-300 mb-4">
           {review.createdAt.toLocaleTimeString("en-us", {
             weekday: "long",
             year: "numeric",
@@ -36,10 +33,10 @@ export default function ReviewElement({ review }: ReviewElementProps) {
             hour12: false,
           })}
         </Badge>
-        <CardTitle className="font-bold text-4xl leading-snug my-4">
+        <CardTitle className="font-bold text-2xl md:text-4xl leading-snug my-4">
           {review.title}
         </CardTitle>
-        <CardDescription className="flex flex-col gap-4 text-lg my-4 italic">
+        <CardDescription className="flex flex-col gap-4 md:text-lg my-4 italic">
           <span className="text-md">{review.description}</span>
         </CardDescription>
       </CardHeader>
@@ -56,7 +53,7 @@ export default function ReviewElement({ review }: ReviewElementProps) {
             </Badge>
           ))}
         </div>
-        <div className="w-full py-5">
+        <div className="w-full mx-auto py-5">
           <AspectRatio ratio={16 / 9}>
             <Image
               src={review.mainImageURL}
@@ -69,10 +66,10 @@ export default function ReviewElement({ review }: ReviewElementProps) {
         </div>
 
         <div
-          className="posts my-2"
+          className="my-2"
           dangerouslySetInnerHTML={{ __html: review.introduction }}
         />
-        <div className="w-full py-5">
+        <div className="w-full mx-auto py-5">
           <AspectRatio ratio={16 / 9}>
             <Image
               src={review.introductionImageURL}
@@ -91,10 +88,10 @@ export default function ReviewElement({ review }: ReviewElementProps) {
           ))}
         </div>
         <div
-          className="posts"
+          className=""
           dangerouslySetInnerHTML={{ __html: review.comparative }}
         />
-        <div className="w-full py-5">
+        <div className="w-full mx-auto py-5">
           <AspectRatio ratio={16 / 9}>
             <Image
               src={review.comparativeImageURL}
@@ -106,7 +103,7 @@ export default function ReviewElement({ review }: ReviewElementProps) {
           </AspectRatio>
         </div>
         <div
-          className="posts"
+          className=""
           dangerouslySetInnerHTML={{ __html: review.conclusion }}
         />
       </CardContent>

@@ -12,7 +12,7 @@ interface LogoProps {
   className?: string;
   width?: number;
   height?: number;
-  showSlogan: boolean;
+  showSlogan?: boolean;
 }
 
 export default function Logo({

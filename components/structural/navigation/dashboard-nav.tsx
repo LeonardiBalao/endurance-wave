@@ -11,20 +11,23 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
 import Link from "next/link";
+import Logo from "./logo";
 
 export default function DashboardNav() {
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-20">
+    <header className="sticky top-0 flex h-28 items-center gap-4 border-b bg-background px-4 md:px-6 z-20">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link
-          href="#"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          <Package2 className="h-6 w-6" />
+        <div className="w-[100px]">
+          <Logo
+            showSlogan={false}
+            width={100}
+            height={100}
+            className="flex justify-center"
+          />
           <span className="sr-only">Endurance Wave</span>
-        </Link>
+        </div>
         <Link
-          href="#"
+          href="/dashboard"
           className="text-foreground transition-colors hover:text-foreground"
         >
           Dashboard
@@ -42,7 +45,7 @@ export default function DashboardNav() {
           Products
         </Link>
         <Link
-          href="#"
+          href="/dashboard/analytics"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
           Analytics
@@ -99,24 +102,6 @@ export default function DashboardNav() {
             />
           </div>
         </form>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUser className="h-5 w-5" />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={"/auth/logout"}>Logout</Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </header>
   );

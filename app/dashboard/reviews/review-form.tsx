@@ -3,13 +3,11 @@
 import MainCard from "@/components/structural/main-card";
 import { Category, Subcategory } from "@prisma/client";
 // import { useReviewStore } from "@/lib/store/review-store";
-import { ChangeEvent, useEffect, useState } from "react";
-import { Slider } from "@/components/ui/slider";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,7 +28,7 @@ import {
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import { CheckIcon, Star, Trash, Upload, UploadCloud } from "lucide-react";
+import { CheckIcon, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,9 +45,7 @@ import { toast } from "sonner";
 import TiptapIntroduction from "@/components/structural/tiptap-introduction";
 import TiptapConclusion from "@/components/structural/tiptap-conclusion";
 import TiptapComparative from "@/components/structural/tiptap-comparative";
-import { Label } from "@/components/ui/label";
 import { createReview } from "@/server/actions/category/create-review";
-import { Toaster } from "@/components/ui/sonner";
 import { UploadButton } from "@/app/api/uploadthing/upload";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
@@ -77,15 +73,12 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
       introduction: "",
       comparative: "",
       conclusion: "",
-      introductionImageURL:
-        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
+      introductionImageURL: "/",
       introductionImageALT: "",
-      mainImageURL:
-        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
+      mainImageURL: "/",
       mainImageALT: "",
       comparativeImageALT: "",
-      comparativeImageURL:
-        "https://utfs.io/f/a17cb278-7a10-4393-ab4d-6f51fb357c75-1ztc2k.png",
+      comparativeImageURL: "/",
     },
     mode: "onChange",
   });
@@ -122,153 +115,8 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
         description="Create a new review"
         className="gap-10 flex flex-col"
       >
-        <div className="flex gap-10">
-          <NewCategory />
-          <NewSubcategory categories={categories} />
-        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="mainImageURL"
-              render={({ field }) => (
-                <FormItem className="flex flex-col justify-start items-start gap-4">
-                  <div className="flex gap-4 w-[350px]">
-                    <div className="flex flex-col gap-4">
-                      <FormLabel>Main Image</FormLabel>
-                      {form.getValues("mainImageURL") && (
-                        <div className="w-[250px]">
-                          <AspectRatio ratio={16 / 9}>
-                            <Image
-                              src={form.getValues("mainImageURL")}
-                              alt="Photo by Drew Beamer"
-                              fill
-                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
-                              unoptimized
-                            />
-                          </AspectRatio>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex gap-4 justify-between items-end">
-                    <div className="flex flex-col gap-4">
-                      <FormLabel>Image alternative text</FormLabel>
-                      <Input
-                        type="text"
-                        placeholder="lion"
-                        onChange={(event) =>
-                          form.setValue("mainImageALT", event.target.value)
-                        }
-                      />
-                    </div>
-                    <UploadButton
-                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
-                      endpoint="imageUploader"
-                      onUploadBegin={() => {
-                        setLoading(true);
-                      }}
-                      onUploadError={(err) => {
-                        form.setError("mainImageURL", {
-                          type: "validate",
-                          message: err.message,
-                        });
-                        setLoading(false);
-                        return;
-                      }}
-                      onClientUploadComplete={(res) => {
-                        form.setValue("mainImageURL", res[0].url);
-                        setLoading(false);
-                        return;
-                      }}
-                      content={{
-                        button({ ready }) {
-                          if (ready)
-                            return (
-                              <div className="flex gap-2 items-center">
-                                <Upload size={16} />
-                                Add Image
-                              </div>
-                            );
-                          return <div>Uploading...</div>;
-                        },
-                      }}
-                    />
-                  </div>
-
-                  <FormControl>
-                    <Input
-                      placeholder="Comparative Image"
-                      type="hidden"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-4 items-center">
-              <FormField
-                control={form.control}
-                name="keywords"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>SEO Keywords</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        {...field}
-                        placeholder="shoes, shirts..."
-                      />
-                    </FormControl>
-                    {field.value &&
-                      field.value.split(",").map((s, i) => (
-                        <Badge className="mr-2" key={i}>
-                          {s}
-                        </Badge>
-                      ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tags</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        {...field}
-                        placeholder="#male, #running..."
-                      />
-                    </FormControl>
-                    {field.value &&
-                      field.value.split(",").map((s, i) => (
-                        <Badge className="mr-2" key={i}>
-                          {s}
-                        </Badge>
-                      ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="Title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <div className="flex gap-10 items-center">
               <FormField
                 control={form.control}
@@ -400,6 +248,19 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
             </div>
             <FormField
               control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="Title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -411,6 +272,82 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="mainImageURL"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-start items-start gap-4">
+                  <FormLabel>Main Image</FormLabel>
+                  {form.getValues("mainImageURL") && (
+                    <div className="w-full mx-auto py-5">
+                      <AspectRatio ratio={16 / 9}>
+                        <Image
+                          src={form.getValues("mainImageURL")}
+                          alt="Photo by Drew Beamer"
+                          fill
+                          className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                          unoptimized
+                        />
+                      </AspectRatio>
+                    </div>
+                  )}
+                  <div className="flex gap-4 justify-between items-end">
+                    <div className="flex flex-col gap-4">
+                      <FormLabel>Image alternative text</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="lion"
+                        onChange={(event) =>
+                          form.setValue("mainImageALT", event.target.value)
+                        }
+                      />
+                    </div>
+                    <UploadButton
+                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
+                      endpoint="imageUploader"
+                      onUploadBegin={() => {
+                        setLoading(true);
+                      }}
+                      onUploadError={(err) => {
+                        form.setError("mainImageURL", {
+                          type: "validate",
+                          message: err.message,
+                        });
+                        setLoading(false);
+                        return;
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue("mainImageURL", res[0].url);
+                        setLoading(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready)
+                            return (
+                              <div className="flex gap-2 items-center">
+                                <Upload size={16} />
+                                Add Image
+                              </div>
+                            );
+                          return <div>Uploading...</div>;
+                        },
+                      }}
+                    />
+                  </div>
+
+                  <FormControl>
+                    <Input
+                      placeholder="Comparative Image"
+                      type="hidden"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="introduction"
@@ -429,24 +366,20 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
               name="introductionImageURL"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-start items-start gap-4">
-                  <div className="flex gap-4 w-[350px]">
-                    <div className="flex flex-col gap-4">
-                      <FormLabel>Introduction Image</FormLabel>
-                      {form.getValues("introductionImageURL") && (
-                        <div className="w-[250px]">
-                          <AspectRatio ratio={16 / 9}>
-                            <Image
-                              src={form.getValues("introductionImageURL")}
-                              alt="Photo by Drew Beamer"
-                              fill
-                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
-                              unoptimized
-                            />
-                          </AspectRatio>
-                        </div>
-                      )}
+                  <FormLabel>Introduction Image</FormLabel>
+                  {form.getValues("introductionImageURL") && (
+                    <div className="w-full mx-auto py-5">
+                      <AspectRatio ratio={16 / 9}>
+                        <Image
+                          src={form.getValues("introductionImageURL")}
+                          alt="Photo by Drew Beamer"
+                          fill
+                          className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                          unoptimized
+                        />
+                      </AspectRatio>
                     </div>
-                  </div>
+                  )}
                   <div className="flex gap-4 justify-between items-end">
                     <div className="flex flex-col gap-4">
                       <FormLabel>Image alternative text</FormLabel>
@@ -524,24 +457,20 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
               name="comparativeImageURL"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-start items-start gap-4">
-                  <div className="flex gap-4 w-[350px]">
-                    <div className="flex flex-col gap-4">
-                      <FormLabel>Comparative Image</FormLabel>
-                      {form.getValues("comparativeImageURL") && (
-                        <div className="w-[250px]">
-                          <AspectRatio ratio={16 / 9}>
-                            <Image
-                              src={form.getValues("comparativeImageURL")}
-                              alt="Photo by Drew Beamer"
-                              fill
-                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
-                              unoptimized
-                            />
-                          </AspectRatio>
-                        </div>
-                      )}
+                  <FormLabel>Comparative Image</FormLabel>
+                  {form.getValues("comparativeImageURL") && (
+                    <div className="w-full mx-auto py-5">
+                      <AspectRatio ratio={16 / 9}>
+                        <Image
+                          src={form.getValues("comparativeImageURL")}
+                          alt="Photo by Drew Beamer"
+                          fill
+                          className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                          unoptimized
+                        />
+                      </AspectRatio>
                     </div>
-                  </div>
+                  )}
                   <div className="flex gap-4 justify-between items-end">
                     <div className="flex flex-col gap-4">
                       <FormLabel>Image alternative text</FormLabel>
@@ -613,6 +542,54 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                 </FormItem>
               )}
             />
+            <div className="flex gap-4 items-center">
+              <FormField
+                control={form.control}
+                name="keywords"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO Keywords</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="shoes, shirts..."
+                      />
+                    </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="#male, #running..."
+                      />
+                    </FormControl>
+                    {field.value &&
+                      field.value.split(",").map((s, i) => (
+                        <Badge className="mr-2" key={i}>
+                          {s}
+                        </Badge>
+                      ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>

@@ -45,6 +45,12 @@ export default function DashboardNav() {
           Products
         </Link>
         <Link
+          href="/dashboard/categories"
+          className="text-muted-foreground hover:text-foreground"
+        >
+          Categories/Brand
+        </Link>
+        <Link
           href="/dashboard/analytics"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
@@ -81,6 +87,12 @@ export default function DashboardNav() {
               className="text-muted-foreground hover:text-foreground"
             >
               Products
+            </Link>
+            <Link
+              href="/dashboard/categories"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Categories and Brands
             </Link>
             <Link
               href="#"

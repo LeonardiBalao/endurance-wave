@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -20,7 +19,10 @@ interface ReviewElementProps {
 
 export default function ReviewElement({ review }: ReviewElementProps) {
   return (
-    <Card key={review.id} className="max-w-screen-sm md:max-w-screen-lg posts">
+    <Card
+      key={review.id}
+      className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary"
+    >
       <CardHeader>
         <Badge className="leading-5 font-serif text-sm rounded drop-shadow-2xl shadow md:w-[350px] border-b-gray-300 mb-4">
           {review.createdAt.toLocaleTimeString("en-us", {
@@ -82,7 +84,11 @@ export default function ReviewElement({ review }: ReviewElementProps) {
         </div>
         <div className="flex gap-2 flex-wrap mb-4 mt-2">
           {review.keywords.map((t, i) => (
-            <Badge variant={"outline"} key={i}>
+            <Badge
+              variant={"outline"}
+              key={i}
+              className="bg-white text-gray-700"
+            >
               {t}
             </Badge>
           ))}

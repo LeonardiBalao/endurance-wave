@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Poppins as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Nav from "@/components/structural/navigation/nav";
+import { Footer } from "@/components/structural/footer";
 
 const fontSans = FontSans({
   weight: ["100", "200", "300", "400", "500"],
@@ -24,10 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en-US" suppressHydrationWarning>
       <body
-        className={cn(
-          "flex min-h-svh w-full flex-col bg-secondary",
-          fontSans.className
-        )}
+        className={cn("flex min-h-svh w-full flex-col", fontSans.className)}
       >
         <ThemeProvider
           attribute="class"
@@ -37,6 +35,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster richColors />
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

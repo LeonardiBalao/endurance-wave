@@ -31,6 +31,7 @@ model User {
   updatedAt DateTime  @updatedAt
   Review    Review[]
   Comment   Comment[]
+  Product   Product[]
 }
 
 model Account {
@@ -114,6 +115,9 @@ model Brand {
 
 model Product {
   id                String      @id @default(uuid())
+  userId            String
+  brandId           String
+  genderId          String
   categoryId        String
   subcategoryId     String
   name              String
@@ -124,7 +128,6 @@ model Product {
   description       String      @db.VarChar(160)
   keywords          String[]
   characteristics   String[]
-  brand             String
   about             String      @db.VarChar(5000)
   videoURL          String[]
   advantages        String[]
@@ -134,12 +137,12 @@ model Product {
   likes             Int         @default(7)
   tags              String[]
   price             Float
-  gender            Gender
   createdAt         DateTime    @default(now())
-  brandId           String?
+  User              User        @relation(fields: [userId], references: [id])
   Category          Category    @relation(fields: [categoryId], references: [id])
   Subcategory       Subcategory @relation(fields: [subcategoryId], references: [id])
-  Brand             Brand?      @relation(fields: [brandId], references: [id])
+  Brand             Brand       @relation(fields: [brandId], references: [id])
+  Gender            Gender      @relation(fields: [genderId], references: [id])
 }
 
 model Review {
@@ -181,8 +184,8 @@ model Comment {
   Review    Review   @relation(fields: [reviewId], references: [id])
 }
 
-enum Gender {
-  MALE
-  FEMALE
-  UNISEX
+model Gender {
+  id      String    @id @default(uuid())
+  type    String
+  Product Product[]
 }

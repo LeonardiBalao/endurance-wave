@@ -9,9 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 import { ArrowRight, BriefcaseBusiness, Upload } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -20,9 +18,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
+import Link from "next/link";
+import { hyfenize } from "@/lib/utils/utils";
 
 export default async function Dashboard() {
   const reviews = await prisma.review.findMany();
+  const products = await prisma.product.findMany();
 
   return (
     <>
@@ -36,11 +38,12 @@ export default async function Dashboard() {
         <div className="flex flex-col gap-4">
           <Card className="hidden md:flex md:flex-col overflow-hidden max-w-[400px] leading-8 bg-primary/75 shadow-sm cursor-pointer hover:bg-primary">
             <CardHeader>
-              <CardTitle className="text-lg text-white">About Us</CardTitle>
-              <CardDescription className="text-sm text-white">
+              <CardTitle className="text-lg text-white font-serif tracking-wide	">
                 We’re passionate about sports and committed to transforming the
-                way enthusiasts shop for gear.
-                <ArrowRight className="ml-auto" />
+                way enthusiasts search for gear.
+              </CardTitle>
+              <CardDescription className="text-sm text-white flex justify-end gap-2 items-center">
+                About us <ArrowRight />
               </CardDescription>
             </CardHeader>
           </Card>
@@ -68,6 +71,49 @@ export default async function Dashboard() {
                   ))}
                 </CarouselContent>
                 <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </CardContent>
+          </Card>
+          <Card className="hidden md:flex md:flex-col max-w-[400px] leading-8 border-none shadow-none">
+            <CardHeader>
+              <CardTitle className="text-lg text-primary">
+                Related Products
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Carousel>
+                <CarouselContent>
+                  {products.map((p) => (
+                    <CarouselItem
+                      key={p.id}
+                      className="md:basis-1/2 cursor-pointer "
+                    >
+                      <Link href={`/products/${"adidas"}/${hyfenize(p.name)}`}>
+                        <Card className="hover:bg-primary/15">
+                          <CardHeader>
+                            <CardTitle className="leading-5">
+                              {p.name}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="flex flex-col gap-2">
+                            <div className="w-full">
+                              <AspectRatio ratio={16 / 9}>
+                                <Image
+                                  src={p.mainImageURL}
+                                  alt={p.mainImageALT}
+                                  fill
+                                  className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                                  unoptimized
+                                />
+                              </AspectRatio>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
                 <CarouselNext />
               </Carousel>
             </CardContent>

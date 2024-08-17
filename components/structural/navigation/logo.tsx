@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import logo from "@/public/logo.png";
+import HyperText from "@/components/magicui/hyper-text";
 
 interface LogoProps {
   className?: string;

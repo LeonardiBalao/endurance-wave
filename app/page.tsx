@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import Main from "@/components/structural/main";
 import prisma from "@/server/db";
-import ReviewElement from "@/components/posts/review";
+import ReviewElement from "@/components/reviews/review";
 import Nav from "@/components/structural/navigation/nav";
 import {
   Card,
@@ -21,105 +22,148 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import Link from "next/link";
 import { hyfenize } from "@/lib/utils/utils";
+import IconCloud from "@/components/magicui/icon-cloud";
+import BoxReveal from "@/components/magicui/box-reveal";
+import Ripple from "@/components/magicui/ripple";
+import { cn } from "@/lib/utils";
+import Marquee from "@/components/magicui/marquee";
+import TypingAnimation from "@/components/magicui/typing-animation";
+import BlurIn from "@/components/magicui/blur-in";
+import ShimmerButton from "@/components/magicui/shimmer-button";
+import PulsatingButton from "@/components/ui/pulsating-button";
+
+const slugs = [
+  "nike",
+  "adidas",
+  "thenorthface",
+  "reebok",
+  "puma",
+  "newbalance",
+  "underarmour",
+  "jordan",
+  "amazon",
+  "nhl",
+  "redbull",
+  "garmin",
+  "mlb",
+  "nba",
+  "burton",
+  "huawei",
+];
+
+const reviews = [
+  {
+    name: "Jack",
+    username: "@jack",
+    body: "I've never seen anything like this before. It's amazing. I love it.",
+    img: "https://avatar.vercel.sh/jack",
+  },
+  {
+    name: "Jill",
+    username: "@jill",
+    body: "I don't know what to say. I'm speechless. This is amazing.",
+    img: "https://avatar.vercel.sh/jill",
+  },
+  {
+    name: "John",
+    username: "@john",
+    body: "I'm at a loss for words. This is amazing. I love it.",
+    img: "https://avatar.vercel.sh/john",
+  },
+  {
+    name: "Jane",
+    username: "@jane",
+    body: "I'm at a loss for words. This is amazing. I love it.",
+    img: "https://avatar.vercel.sh/jane",
+  },
+  {
+    name: "Jenny",
+    username: "@jenny",
+    body: "I'm at a loss for words. This is amazing. I love it.",
+    img: "https://avatar.vercel.sh/jenny",
+  },
+  {
+    name: "James",
+    username: "@james",
+    body: "I'm at a loss for words. This is amazing. I love it.",
+    img: "https://avatar.vercel.sh/james",
+  },
+];
+
+const ReviewCard = ({
+  img,
+  name,
+  username,
+  body,
+}: {
+  img: string;
+  name: string;
+  username: string;
+  body: string;
+}) => {
+  return (
+    <figure
+      className={cn(
+        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        // light styles
+        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+        // dark styles
+        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+      )}
+    >
+      <div className="flex flex-row items-center gap-2">
+        <img className="rounded-full" width="32" height="32" alt="" src={img} />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-white">
+            {name}
+          </figcaption>
+          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+        </div>
+      </div>
+      <blockquote className="mt-2 text-sm">{body}</blockquote>
+    </figure>
+  );
+};
+
+const firstRow = reviews.slice(0, reviews.length / 2);
+const secondRow = reviews.slice(reviews.length / 2);
 
 export default async function Dashboard() {
-  const reviews = await prisma.review.findMany();
-  const products = await prisma.product.findMany();
-
   return (
     <>
       <Nav />
-      <Main className="flex gap-4">
-        <div className="flex flex-col gap-4">
-          {reviews.map((r, i) => (
-            <ReviewElement key={i} review={r} />
-          ))}
-        </div>
-        <div className="flex flex-col gap-4">
-          <Card className="hidden md:flex md:flex-col overflow-hidden max-w-[400px] leading-8 bg-primary/75 shadow-sm cursor-pointer hover:bg-primary">
-            <CardHeader>
-              <CardTitle className="text-lg text-white font-serif tracking-wide	">
-                We’re passionate about sports and committed to transforming the
-                way enthusiasts search for gear.
-              </CardTitle>
-              <CardDescription className="text-sm text-white flex justify-end gap-2 items-center">
-                About us <ArrowRight />
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="hidden md:flex md:flex-col overflow-hidden max-w-[400px] leading-8 border-none shadow-none">
-            <CardHeader>
-              <CardTitle className="text-lg text-primary">
-                Related Reviews
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Carousel>
-                <CarouselContent>
-                  {reviews.map((r) => (
-                    <CarouselItem
-                      key={r.id}
-                      className="md:basis-1/2 cursor-pointer "
-                    >
-                      <Card className="hover:bg-primary/15">
-                        <CardHeader>
-                          <CardTitle className="leading-5">{r.title}</CardTitle>
-                          <ArrowRight className="ml-auto text-primary" />
-                        </CardHeader>
-                      </Card>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            </CardContent>
-          </Card>
-          <Card className="hidden md:flex md:flex-col max-w-[400px] leading-8 border-none shadow-none">
-            <CardHeader>
-              <CardTitle className="text-lg text-primary">
-                Related Products
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Carousel>
-                <CarouselContent>
-                  {products.map((p) => (
-                    <CarouselItem
-                      key={p.id}
-                      className="md:basis-1/2 cursor-pointer "
-                    >
-                      <Link href={`/products/${"adidas"}/${hyfenize(p.name)}`}>
-                        <Card className="hover:bg-primary/15">
-                          <CardHeader>
-                            <CardTitle className="leading-5">
-                              {p.name}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="flex flex-col gap-2">
-                            <div className="w-full">
-                              <AspectRatio ratio={16 / 9}>
-                                <Image
-                                  src={p.mainImageURL}
-                                  alt={p.mainImageALT}
-                                  fill
-                                  className="border-2 border-black rounded-sm  shadow-lg object-cover"
-                                  unoptimized
-                                />
-                              </AspectRatio>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselNext />
-              </Carousel>
-            </CardContent>
-          </Card>
+      <div className="relative flex h-[500px] flex-col items-center justify-center bg-background w-full">
+        <p className="z-10 text-center text-5xl font-medium tracking-tighter text-primary">
+          Endurance Wave
+        </p>
+        <Ripple />
+      </div>
+      <Main className="flex flex-col items-center">
+        <div className="w-full flex flex-col justify-center gap-10 items-center">
+          <TypingAnimation
+            className="text-xl text-primary/50 dark:text-white"
+            text="We simplify choices and boost informed purchases."
+            duration={40}
+          />
+          <PulsatingButton className="flex">
+            News and Reviews <ArrowRight />
+          </PulsatingButton>
         </div>
       </Main>
+      <div className="relative flex h-[200px] w-full flex-col items-center justify-center overflow-hidden bg-background mt-10">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
+          {secondRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+      </div>
     </>
   );
 }

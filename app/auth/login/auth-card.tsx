@@ -23,7 +23,7 @@ export default function AuthCard({
   description,
 }: CardProps) {
   return (
-    <Card className="w-full max-w-sm mx-auto my-auto">
+    <Card className="w-full max-w-sm mx-auto my-auto border-none shadow-none my-4">
       <CardHeader className="flex flex-col items-center gap-2">
         <Logo showSlogan className="" width={40} height={40} />
         <CardTitle className="text-2xl">{cardTitle}</CardTitle>

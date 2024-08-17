@@ -14,7 +14,7 @@ export default function Socials() {
       }
     >
       <Chrome size={20} />
-      Entrar com Google
+      Login with Google
     </Button>
   );
 }

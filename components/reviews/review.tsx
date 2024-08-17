@@ -19,10 +19,7 @@ interface ReviewElementProps {
 
 export default function ReviewElement({ review }: ReviewElementProps) {
   return (
-    <Card
-      key={review.id}
-      className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary"
-    >
+    <Card className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary">
       <CardHeader>
         <Badge className="leading-5 font-serif text-sm rounded drop-shadow-2xl shadow md:w-[350px] border-b-gray-300 mb-4">
           {review.createdAt.toLocaleTimeString("en-us", {

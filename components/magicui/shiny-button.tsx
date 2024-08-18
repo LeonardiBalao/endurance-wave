@@ -3,6 +3,7 @@
 import { motion, type AnimationProps } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
 
 const animationProps = {
   initial: { "--x": "100%", scale: 0.8 },
@@ -41,13 +42,14 @@ const ShinyButton = ({
       )}
     >
       <span
-        className="relative block h-full w-full text-sm uppercase tracking-wide text-[rgb(0,0,0,65%)] dark:font-light dark:text-[rgb(255,255,255,90%)]"
+        className="relative flex gap-2 items-center h-full w-full text-sm tracking-wide text-[rgb(0,0,0,65%)] dark:font-light dark:text-[rgb(255,255,255,90%)]"
         style={{
           maskImage:
             "linear-gradient(-75deg,hsl(var(--primary)) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),hsl(var(--primary)) calc(var(--x) + 100%))",
         }}
       >
         {text}
+        <ArrowRight size={14} />
       </span>
       <span
         style={{

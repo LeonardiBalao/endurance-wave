@@ -145,9 +145,11 @@ export default async function Dashboard() {
             text="We simplify choices and boost informed purchases."
             duration={40}
           />
-          <PulsatingButton className="flex">
-            News and Reviews <ArrowRight />
-          </PulsatingButton>
+          <Link href={"/sports-news"}>
+            <PulsatingButton className="flex">
+              News and Reviews <ArrowRight />
+            </PulsatingButton>
+          </Link>
         </div>
       </Main>
       <div className="relative flex h-[200px] w-full flex-col items-center justify-center overflow-hidden bg-background mt-10">

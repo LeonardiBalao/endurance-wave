@@ -21,9 +21,9 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
-import MainCard from "@/components/structural/main-card";
 import { brandSchema } from "@/types/schemas/brand-schema";
 import { createBrand } from "@/server/actions/category/create-brand";
+import SecondaryCard from "@/components/structural/secondary-card";
 
 export default function NewBrand() {
   const router = useRouter();
@@ -48,11 +48,7 @@ export default function NewBrand() {
   };
 
   return (
-    <MainCard
-      title="New Brand"
-      description="Create a new brand"
-      titleClassSize="text-lg"
-    >
+    <SecondaryCard title="Add Brand">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -80,6 +76,6 @@ export default function NewBrand() {
           </Button>
         </form>
       </Form>
-    </MainCard>
+    </SecondaryCard>
   );
 }

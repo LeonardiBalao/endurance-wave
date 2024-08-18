@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
 import { categorySchema } from "@/types/schemas/category-schema";
-import MainCard from "@/components/structural/main-card";
+import SecondaryCard from "@/components/structural/secondary-card";
 
 export default function NewCategory() {
   const router = useRouter();
@@ -47,11 +47,7 @@ export default function NewCategory() {
   };
 
   return (
-    <MainCard
-      title="New Category"
-      description="Create a new category"
-      titleClassSize="text-lg"
-    >
+    <SecondaryCard title="Add category">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -79,6 +75,6 @@ export default function NewCategory() {
           </Button>
         </form>
       </Form>
-    </MainCard>
+    </SecondaryCard>
   );
 }

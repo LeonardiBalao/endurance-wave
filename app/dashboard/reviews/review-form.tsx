@@ -1,6 +1,5 @@
 "use client";
 
-import MainCard from "@/components/structural/main-card";
 import { Category, Subcategory } from "@prisma/client";
 // import { useReviewStore } from "@/lib/store/review-store";
 import { useEffect, useState } from "react";
@@ -48,6 +47,15 @@ import TiptapComparative from "@/components/structural/tiptap-comparative";
 import { createReview } from "@/server/actions/category/create-review";
 import { UploadButton } from "@/app/api/uploadthing/upload";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Main from "@/components/structural/main";
+import SecondaryCard from "@/components/structural/secondary-card";
 
 interface ReviewFormProps {
   categories: Category[];
@@ -109,15 +117,11 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
   }, [category]);
 
   return (
-    <>
-      <MainCard
-        title="Add review"
-        description="Create a new review"
-        className="gap-10 flex flex-col"
-      >
+    <Main className="container py-4">
+      <SecondaryCard title="Add Review">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="flex gap-10 items-center">
+            <div className="flex gap-10 items-center flex-wrap">
               <FormField
                 control={form.control}
                 name="category"
@@ -593,7 +597,7 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
             <Button type="submit">Submit</Button>
           </form>
         </Form>
-      </MainCard>
-    </>
+      </SecondaryCard>
+    </Main>
   );
 }

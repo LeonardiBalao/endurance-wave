@@ -3,32 +3,24 @@
 import prisma from "@/server/db";
 import { Review } from "@prisma/client";
 
-export const getReview = async (
-  category: string,
-  subcategory: string,
-  title: string
-) => {
-  if (!category || !subcategory || !title) return;
-  const categoryExists = await prisma.category.findFirst({
-    where: {
-      name: category,
-    },
-  });
-  if (!categoryExists) return;
+export const getReview = async (subcategory: string, title: string) => {
+  if (!subcategory || !title) return;
 
   const subcategoryExists = await prisma.subcategory.findFirst({
     where: {
-      name: subcategory,
+      name: {
+        contains: subcategory,
+        mode: "insensitive",
+      },
     },
   });
   if (!subcategoryExists) return;
 
   const reviewExists = (await prisma.review.findFirst({
     where: {
-      categoryId: categoryExists.id,
       subcategoryId: subcategoryExists.id,
       title: {
-        equals: title,
+        contains: title.split(" ").slice(0, 1).join(),
         mode: "insensitive",
       },
     },

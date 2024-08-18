@@ -32,7 +32,7 @@ export default async function Nav() {
   const session = await auth();
 
   return (
-    <header className="sticky top-0 z-30 flex h-28 w-full items-center justify-between gap-2 px-4 md:px-6 bg-background">
+    <header className="sticky top-0 z-30 flex h-20 w-full items-center justify-between gap-2 px-4 md:px-6 bg-background border-b">
       <nav className="text-lg font-medium md:flex md:flex-row md:items-center md:justify-between md:gap-5 md:text-sm lg:gap-6">
         <Logo
           className="flex items-center gap-2 text-lg font-semibold justify-center"

@@ -39,7 +39,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Category, Subcategory } from "@prisma/client";
-import MainCard from "@/components/structural/main-card";
 import { getSubcategories } from "@/server/actions/category/get-subcategories";
 import SecondaryCard from "@/components/structural/secondary-card";
 
@@ -74,7 +73,7 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
   };
 
   return (
-    <SecondaryCard title="Create subcategory" titleClassSize="text-lg">
+    <SecondaryCard title="Create subcategory">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

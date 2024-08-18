@@ -6,7 +6,5 @@ interface MainProps {
   className?: string;
 }
 export default function Main({ children, className }: MainProps) {
-  return (
-    <div className={cn("container py-4 md:py-10", className)}>{children}</div>
-  );
+  return <main className={cn("", className)}>{children}</main>;
 }

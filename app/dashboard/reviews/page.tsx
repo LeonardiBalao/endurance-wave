@@ -9,11 +9,5 @@ export default async function Dashboard() {
   const categories = await getCategories();
   if (!session?.user.id) return redirect("/dashboard");
 
-  return (
-    <>
-      <Main>
-        <ReviewForm categories={categories} userId={session?.user.id} />
-      </Main>
-    </>
-  );
+  return <ReviewForm categories={categories} userId={session?.user.id} />;
 }

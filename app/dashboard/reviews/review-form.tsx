@@ -1,6 +1,6 @@
 "use client";
 
-import { Category, Subcategory } from "@prisma/client";
+import { Category, Product, Subcategory } from "@prisma/client";
 // import { useReviewStore } from "@/lib/store/review-store";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -60,14 +60,20 @@ import SecondaryCard from "@/components/structural/secondary-card";
 interface ReviewFormProps {
   categories: Category[];
   userId: string;
+  products: Product[];
 }
 
-export default function ReviewForm({ categories, userId }: ReviewFormProps) {
+export default function ReviewForm({
+  categories,
+  userId,
+  products,
+}: ReviewFormProps) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [openSubcategory, setOpenSubcategory] = useState(false);
+  const [openProducts, setOpenProducts] = useState(false);
 
   const form = useForm<z.infer<typeof reviewSchema>>({
     resolver: zodResolver(reviewSchema),
@@ -87,19 +93,21 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
       mainImageALT: "",
       comparativeImageALT: "",
       comparativeImageURL: "/",
+      product: "",
     },
     mode: "onChange",
   });
 
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+  const [productsArray, setProductsArray] = useState<Product[]>([]);
 
   const onSubmit = async (values: z.infer<typeof reviewSchema>) => {
-    const review = {
+    let review = {
       ...values,
       userId: userId,
+      pArray: productsArray,
     };
-    console.log(review);
     const { error, success } = await createReview(review);
     if (error) {
       return toast.error(`${error}`);
@@ -227,6 +235,92 @@ export default function ReviewForm({ categories, userId }: ReviewFormProps) {
                                         : currentValue
                                     );
                                     setOpenSubcategory(false);
+                                  }}
+                                >
+                                  {c.name}
+                                  <CheckIcon
+                                    className={cn(
+                                      "ml-auto h-4 w-4",
+                                      field.value === c.name
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                </CommandItem>
+                              ))}
+                            </CommandList>
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="product"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Products</FormLabel>
+                    {productsArray.map((p) => (
+                      <div
+                        className="cursor-pointer w-full flex"
+                        onClick={() =>
+                          setProductsArray([
+                            ...productsArray.filter((pA) => pA.id !== p.id),
+                          ])
+                        }
+                        key={p.id}
+                      >
+                        <div className="w-full mx-auto py-5">
+                          <AspectRatio ratio={16 / 9}>
+                            <Image
+                              src={p.mainImageURL}
+                              alt="Photo by Drew Beamer"
+                              fill
+                              className="border-2 border-black rounded-sm  shadow-lg object-cover"
+                              unoptimized
+                            />
+                          </AspectRatio>
+                        </div>
+                        {p.name}
+                      </div>
+                    ))}
+                    <Popover open={openProducts} onOpenChange={setOpenProducts}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={openProducts}
+                          className="w-[200px] justify-between"
+                        >
+                          {field.value ? field.value : "Select category"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command label="Command Menu">
+                          <CommandInput
+                            placeholder="Search product..."
+                            className="h-9"
+                          />
+                          <CommandEmpty>No product found.</CommandEmpty>
+                          <CommandGroup>
+                            <CommandList>
+                              {products.map((c: Product) => (
+                                <CommandItem
+                                  key={c.id}
+                                  value={c.name}
+                                  onSelect={(currentValue: string) => {
+                                    form.setValue(
+                                      "product",
+                                      currentValue === field.value
+                                        ? ""
+                                        : currentValue
+                                    );
+                                    setProductsArray([...productsArray, c]);
+                                    setOpenProducts(false);
                                   }}
                                 >
                                   {c.name}

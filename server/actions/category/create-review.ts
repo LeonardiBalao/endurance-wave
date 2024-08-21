@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/server/db";
+import { Product } from "@prisma/client";
 
 interface ReviewProps {
   userId: string;
@@ -19,10 +20,13 @@ interface ReviewProps {
   introductionImageALT: string;
   comparativeImageURL: string;
   comparativeImageALT: string;
+  product: string;
+  pArray: Product[];
 }
 
 export const createReview = async (review: ReviewProps) => {
   try {
+    if (!review.pArray) return { error: "Missing Products" };
     if (!review.userId) return { error: "No user ID" };
     if (!review.category || !review.subcategory)
       return { error: "No category and subcategory" };
@@ -80,6 +84,7 @@ export const createReview = async (review: ReviewProps) => {
         mainImageALT: review.mainImageALT.replaceAll(" ", "-"),
         tags: review.tags.split(","),
         keywords: review.keywords.split(","),
+        productsId: review.pArray.map((p) => p.id),
       },
     });
     return { success: `Review "${review.title}" created.` };

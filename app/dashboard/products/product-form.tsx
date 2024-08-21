@@ -26,7 +26,13 @@ import {
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import { CheckIcon, PlusCircle, Trash2, Upload } from "lucide-react";
+import {
+  CheckIcon,
+  PlusCircle,
+  Trash2,
+  Upload,
+  UploadCloud,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -127,7 +133,7 @@ export default function ProductForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex gap-10 items-center">
+          <div className="flex gap-10 items-center flex-wrap">
             <FormField
               control={form.control}
               name="category"
@@ -399,8 +405,8 @@ export default function ProductForm({
                       button({ ready }) {
                         if (ready)
                           return (
-                            <div className="flex gap-2 items-center">
-                              <Upload size={16} />
+                            <div className="flex gap-2 items-center text-black">
+                              <UploadCloud size={30} />
                               Add Image
                             </div>
                           );
@@ -537,7 +543,7 @@ export default function ProductForm({
                       button({ ready }) {
                         if (ready)
                           return (
-                            <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center text-black">
                               <Upload size={16} />
                               Add Image
                             </div>

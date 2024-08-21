@@ -16,4 +16,5 @@ export const reviewSchema = z.object({
   comparativeImageURL: z.string(),
   comparativeImageALT: z.string(),
   conclusion: z.string().max(5000),
+  product: z.string(),
 });

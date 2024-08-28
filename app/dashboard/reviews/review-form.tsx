@@ -1,7 +1,6 @@
 "use client";
 
 import { Category, Product, Subcategory } from "@prisma/client";
-// import { useReviewStore } from "@/lib/store/review-store";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -34,8 +33,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { reviewSchema } from "@/types/schemas/review-schema";
 import { useRouter } from "next/navigation";
-import NewSubcategory from "./new-subcategory";
-import NewCategory from "./new-category";
 import { getSubcategories } from "@/server/actions/category/get-subcategories";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -47,13 +44,6 @@ import TiptapComparative from "@/components/structural/tiptap-comparative";
 import { createReview } from "@/server/actions/category/create-review";
 import { UploadButton } from "@/app/api/uploadthing/upload";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Main from "@/components/structural/main";
 import SecondaryCard from "@/components/structural/secondary-card";
 
@@ -91,8 +81,6 @@ export default function ReviewForm({
       introductionImageALT: "",
       mainImageURL: "/",
       mainImageALT: "",
-      comparativeImageALT: "",
-      comparativeImageURL: "/",
       product: "",
     },
     mode: "onChange",
@@ -273,11 +261,11 @@ export default function ReviewForm({
                         }
                         key={p.id}
                       >
-                        <div className="w-full mx-auto py-5">
+                        <div className="w-[70%] mx-auto py-5">
                           <AspectRatio ratio={16 / 9}>
                             <Image
                               src={p.mainImageURL}
-                              alt="Photo by Drew Beamer"
+                              alt={p.mainImageALT}
                               fill
                               className="border-2 border-black rounded-sm  shadow-lg object-cover"
                               unoptimized
@@ -377,11 +365,11 @@ export default function ReviewForm({
                 <FormItem className="flex flex-col justify-start items-start gap-4">
                   <FormLabel>Main Image</FormLabel>
                   {form.getValues("mainImageURL") && (
-                    <div className="w-full mx-auto py-5">
+                    <div className="w-[70%] mx-auto py-5">
                       <AspectRatio ratio={16 / 9}>
                         <Image
                           src={form.getValues("mainImageURL")}
-                          alt="Photo by Drew Beamer"
+                          alt={form.getValues("mainImageALT")}
                           fill
                           className="border-2 border-black rounded-sm  shadow-lg object-cover"
                           unoptimized
@@ -466,11 +454,11 @@ export default function ReviewForm({
                 <FormItem className="flex flex-col justify-start items-start gap-4">
                   <FormLabel>Introduction Image</FormLabel>
                   {form.getValues("introductionImageURL") && (
-                    <div className="w-full mx-auto py-5">
+                    <div className="w-[70%] mx-auto py-5">
                       <AspectRatio ratio={16 / 9}>
                         <Image
                           src={form.getValues("introductionImageURL")}
-                          alt="Photo by Drew Beamer"
+                          alt={form.getValues("introductionImageALT")}
                           fill
                           className="border-2 border-black rounded-sm  shadow-lg object-cover"
                           unoptimized
@@ -483,7 +471,7 @@ export default function ReviewForm({
                       <FormLabel>Image alternative text</FormLabel>
                       <Input
                         type="text"
-                        placeholder="lion"
+                        placeholder="bitch running"
                         onChange={(event) =>
                           form.setValue(
                             "introductionImageALT",
@@ -545,83 +533,6 @@ export default function ReviewForm({
                   <FormLabel>Comparative</FormLabel>
                   <FormControl>
                     <TiptapComparative val={field.value} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="comparativeImageURL"
-              render={({ field }) => (
-                <FormItem className="flex flex-col justify-start items-start gap-4">
-                  <FormLabel>Comparative Image</FormLabel>
-                  {form.getValues("comparativeImageURL") && (
-                    <div className="w-full mx-auto py-5">
-                      <AspectRatio ratio={16 / 9}>
-                        <Image
-                          src={form.getValues("comparativeImageURL")}
-                          alt="Photo by Drew Beamer"
-                          fill
-                          className="border-2 border-black rounded-sm  shadow-lg object-cover"
-                          unoptimized
-                        />
-                      </AspectRatio>
-                    </div>
-                  )}
-                  <div className="flex gap-4 justify-between items-end">
-                    <div className="flex flex-col gap-4">
-                      <FormLabel>Image alternative text</FormLabel>
-                      <Input
-                        type="text"
-                        placeholder="lion"
-                        onChange={(event) =>
-                          form.setValue(
-                            "comparativeImageALT",
-                            event.target.value
-                          )
-                        }
-                      />
-                    </div>
-                    <UploadButton
-                      className="mr-auto scale-75 ut-button:ring-primary hover:ut-button:bg-primary/100 ut-uploading:primary/50 ut-ready:primary ut-allowed-content:hidden ut-label:hidden ut-button:duration-500 ut-button:transition-all ut-button:bg-primary/75"
-                      endpoint="imageUploader"
-                      onUploadBegin={() => {
-                        setLoading(true);
-                      }}
-                      onUploadError={(err) => {
-                        form.setError("comparativeImageURL", {
-                          type: "validate",
-                          message: err.message,
-                        });
-                        setLoading(false);
-                        return;
-                      }}
-                      onClientUploadComplete={(res) => {
-                        form.setValue("comparativeImageURL", res[0].url);
-                        setLoading(false);
-                        return;
-                      }}
-                      content={{
-                        button({ ready }) {
-                          if (ready)
-                            return (
-                              <div className="flex gap-2 items-center">
-                                <Upload size={16} />
-                                Add Image
-                              </div>
-                            );
-                          return <div>Uploading...</div>;
-                        },
-                      }}
-                    />
-                  </div>
-                  <FormControl>
-                    <Input
-                      placeholder="Introduction Image"
-                      type="hidden"
-                      {...field}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

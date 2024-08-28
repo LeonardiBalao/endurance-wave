@@ -20,8 +20,8 @@ export const getLatestReviews = async () => {
     if (!subcategory) return;
     formattedReviews.push({
       ...r,
-      categoryId: category.name,
-      subcategoryId: subcategory.name,
+      categoryId: category.slug,
+      subcategoryId: subcategory.slug,
     });
   }
 

@@ -92,57 +92,50 @@ model Authenticator {
 model Category {
   id            String        @id @default(uuid())
   name          String
+  slug          String
   subcategories Subcategory[]
-  Product       Product[]
   Review        Review[]
 }
 
 model Subcategory {
-  id          String    @id @default(uuid())
-  name        String
-  categoryId  String
-  description String
-  Category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  Review      Review[]
-  Product     Product[]
+  id         String   @id @default(uuid())
+  name       String
+  slug       String
+  categoryId String
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Review     Review[]
 }
 
 model Brand {
   id      String    @id @default(uuid())
+  slug    String
   name    String
   Product Product[]
 }
 
 model Product {
-  id                String      @id @default(uuid())
-  userId            String
-  brandId           String
-  genderId          String
-  categoryId        String
-  subcategoryId     String
-  name              String
-  mainImageURL      String
-  mainImageALT      String
-  secondaryImageURL String
-  secondaryImageALT String
-  description       String      @db.VarChar(160)
-  keywords          String[]
-  characteristics   String[]
-  about             String      @db.VarChar(5000)
-  videoURL          String[]
-  advantages        String[]
-  disadvantages     String[]
-  affiliateURL      String[]
-  rating            Float       @default(5)
-  likes             Int         @default(7)
-  tags              String[]
-  price             Float
-  createdAt         DateTime    @default(now())
-  User              User        @relation(fields: [userId], references: [id])
-  Category          Category    @relation(fields: [categoryId], references: [id])
-  Subcategory       Subcategory @relation(fields: [subcategoryId], references: [id])
-  Brand             Brand       @relation(fields: [brandId], references: [id])
-  Gender            Gender      @relation(fields: [genderId], references: [id])
+  id            String   @id @default(uuid())
+  userId        String
+  brandId       String
+  genderId      String
+  slug          String
+  name          String
+  mainImageURL  String
+  mainImageALT  String
+  description   String   @db.VarChar(160)
+  keywords      String[]
+  about         String   @db.VarChar(5000)
+  advantages    String[]
+  disadvantages String[]
+  affiliateURL  String[]
+  rating        Decimal  @default(5)
+  likes         Int      @default(7)
+  tags          String[]
+  price         Decimal
+  createdAt     DateTime @default(now())
+  User          User     @relation(fields: [userId], references: [id])
+  Brand         Brand    @relation(fields: [brandId], references: [id])
+  Gender        Gender   @relation(fields: [genderId], references: [id])
 }
 
 model Review {
@@ -150,6 +143,7 @@ model Review {
   userId               String
   categoryId           String
   subcategoryId        String
+  slug                 String
   productsId           String[]
   keywords             String[]
   tags                 String[]
@@ -162,8 +156,6 @@ model Review {
   introductionImageURL String
   introductionImageALT String
   comparative          String      @db.VarChar(5000)
-  comparativeImageURL  String
-  comparativeImageALT  String
   conclusion           String      @db.VarChar(5000)
   likes                Int         @default(72)
   createdAt            DateTime    @default(now())

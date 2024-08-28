@@ -1,5 +1,6 @@
 "use server";
 
+import { generateSlug } from "@/lib/utils/utils";
 import prisma from "@/server/db";
 import { Product } from "@prisma/client";
 
@@ -18,8 +19,6 @@ interface ReviewProps {
   mainImageALT: string;
   introductionImageURL: string;
   introductionImageALT: string;
-  comparativeImageURL: string;
-  comparativeImageALT: string;
   product: string;
   pArray: Product[];
 }
@@ -40,8 +39,6 @@ export const createReview = async (review: ReviewProps) => {
     if (
       !review.mainImageALT ||
       !review.mainImageURL ||
-      !review.comparativeImageURL ||
-      !review.comparativeImageALT ||
       !review.introductionImageURL ||
       !review.introductionImageALT
     )
@@ -69,6 +66,7 @@ export const createReview = async (review: ReviewProps) => {
     await prisma.review.create({
       data: {
         userId: review.userId,
+        slug: generateSlug(review.title),
         title: review.title,
         categoryId: category.id,
         subcategoryId: subcategory.id,
@@ -76,8 +74,6 @@ export const createReview = async (review: ReviewProps) => {
         introduction: review.introduction,
         comparative: review.comparative,
         conclusion: review.conclusion,
-        comparativeImageALT: review.comparativeImageALT.replaceAll(" ", "-"),
-        comparativeImageURL: review.comparativeImageURL,
         mainImageURL: review.mainImageURL,
         introductionImageALT: review.introductionImageALT.replaceAll(" ", "-"),
         introductionImageURL: review.introductionImageURL,

@@ -1,5 +1,6 @@
 "use server";
 
+import { generateSlug } from "@/lib/utils/utils";
 import prisma from "@/server/db";
 
 interface CreateBrandProps {
@@ -18,6 +19,7 @@ export const createBrand = async ({ brand }: CreateBrandProps) => {
   await prisma.brand.create({
     data: {
       name: brand,
+      slug: generateSlug(brand),
     },
   });
 

@@ -1,17 +1,16 @@
 "use server";
 
+import { generateSlug } from "@/lib/utils/utils";
 import prisma from "@/server/db";
 
 interface CreateSubcategoryProps {
   category: string;
   subcategory: string;
-  description: string;
 }
 
 export const createsubCategory = async ({
   category,
   subcategory,
-  description,
 }: CreateSubcategoryProps) => {
   const categoryExists = await prisma.category.findFirst({
     where: {
@@ -30,13 +29,11 @@ export const createsubCategory = async ({
   if (subcategoryExists)
     return { error: `Subcategory "${subcategory}" already exists.` };
 
-  if (!description) return { error: "No subcategory description" };
-
   await prisma.subcategory.create({
     data: {
       categoryId: categoryExists.id,
       name: subcategory,
-      description: description,
+      slug: generateSlug(subcategory),
     },
   });
 

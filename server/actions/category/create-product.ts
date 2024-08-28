@@ -1,18 +1,17 @@
 "use server";
 
+import { generateSlug } from "@/lib/utils/utils";
 import prisma from "@/server/db";
+import { Prisma } from "@prisma/client";
 
 interface CreateProductProps {
   userId: string;
-  category: string;
-  subcategory: string;
   keywords: string;
   tags: string;
   description: string;
   advantages: string[];
   affiliateURL: string[];
   brand: string;
-  characteristics: string[];
   disadvantages: string[];
   gender: string;
   mainImageALT: string;
@@ -20,16 +19,12 @@ interface CreateProductProps {
   mainImageURL: string;
   name: string;
   price: string;
-  secondaryImageALT: string;
-  secondaryImageURL: string;
-  videoURL: string;
 }
 
 export const createProduct = async (product: CreateProductProps) => {
   try {
     if (!product.userId) return { error: "No user ID" };
-    if (!product.category || !product.subcategory)
-      return { error: "No category and subcategory" };
+
     if (
       !product.about ||
       !product.description ||
@@ -37,32 +32,10 @@ export const createProduct = async (product: CreateProductProps) => {
       !product.price
     )
       return { error: "No main text, price, about or title." };
-    if (
-      !product.mainImageALT ||
-      !product.mainImageURL ||
-      !product.secondaryImageALT ||
-      !product.secondaryImageURL
-    )
+    if (!product.mainImageALT || !product.mainImageURL)
       return { error: "Missing image property" };
     if (!product.keywords || !product.tags)
       return { error: "No keywords or tags" };
-
-    const category = await prisma.category.findFirst({
-      where: {
-        name: product.category,
-      },
-    });
-
-    if (!category) return { error: "No category" };
-
-    const subcategory = await prisma.subcategory.findFirst({
-      where: {
-        categoryId: category.id,
-        name: product.subcategory,
-      },
-    });
-
-    if (!subcategory) return { error: "No subcategory" };
 
     const brand = await prisma.brand.findFirst({
       where: {
@@ -83,19 +56,16 @@ export const createProduct = async (product: CreateProductProps) => {
     await prisma.product.create({
       data: {
         userId: product.userId,
+        slug: generateSlug(product.name),
         name: product.name,
-        categoryId: category.id,
-        subcategoryId: subcategory.id,
         description: product.description,
         about: product.about,
         mainImageURL: product.mainImageURL,
         mainImageALT: product.mainImageALT.replaceAll(" ", "-"),
-        secondaryImageURL: product.secondaryImageURL,
-        secondaryImageALT: product.secondaryImageALT.replaceAll(" ", "-"),
         tags: product.tags.split(","),
         keywords: product.keywords.split(","),
         brandId: brand.id,
-        price: parseFloat(product.price),
+        price: new Prisma.Decimal(parseFloat(product.price).toFixed(2)),
         advantages: product.advantages,
         disadvantages: product.disadvantages,
         affiliateURL: product.affiliateURL,

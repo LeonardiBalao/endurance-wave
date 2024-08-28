@@ -1,10 +1,9 @@
-export const hyfenize = (text: string) => {
-  return text
-    .replaceAll(" ", "-")
-    .toLowerCase()
-    .replaceAll(/[^A-Za-z0-9-]+/g, "");
-};
-
-export const unhyfenize = (text: string) => {
-  return text.replaceAll("-", " ");
-};
+export function generateSlug(text: string) {
+  const slug = text
+    .toLowerCase() // Convert to lowercase
+    .replace(/[^\w\s-]/g, "") // Remove non-word characters except spaces and hyphens
+    .trim() // Trim spaces
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .slice(0, 50); // Limit to 50 characters
+  return slug;
+}

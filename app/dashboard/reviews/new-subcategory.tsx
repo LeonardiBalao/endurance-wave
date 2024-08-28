@@ -56,7 +56,6 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
     defaultValues: {
       category: "",
       subcategory: "",
-      description: "",
     },
   });
 
@@ -146,23 +145,6 @@ export default function NewSubcategory({ categories }: NewSubcategoryProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Subcategory</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="e.g: Running shoes"
-                    type="text"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="e.g: Running shoes"

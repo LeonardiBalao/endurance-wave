@@ -1,35 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Main from "@/components/structural/main";
-import prisma from "@/server/db";
-import ReviewElement from "@/components/reviews/review";
 import Nav from "@/components/structural/navigation/nav";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ArrowRight, BriefcaseBusiness, Upload } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
+
+import { ArrowRight } from "lucide-react";
+
 import Link from "next/link";
-import { hyfenize } from "@/lib/utils/utils";
-import IconCloud from "@/components/magicui/icon-cloud";
-import BoxReveal from "@/components/magicui/box-reveal";
 import Ripple from "@/components/magicui/ripple";
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import TypingAnimation from "@/components/magicui/typing-animation";
-import BlurIn from "@/components/magicui/blur-in";
-import ShimmerButton from "@/components/magicui/shimmer-button";
 import PulsatingButton from "@/components/ui/pulsating-button";
 
 const slugs = [

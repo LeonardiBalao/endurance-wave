@@ -13,7 +13,6 @@ import {
 import { Product } from "@prisma/client";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import { hyfenize } from "@/lib/utils/utils";
 
 interface ProductElementProps {
   product: Product & { brand: string };
@@ -21,7 +20,7 @@ interface ProductElementProps {
 
 export default function ProductElement({ product }: ProductElementProps) {
   return (
-    <Link href={`/${product.brand}/${hyfenize(product.name)}`}>
+    <Link href={`/${product.brand}/${product.name}`}>
       <Card
         key={product.id}
         className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary"
@@ -74,17 +73,6 @@ export default function ProductElement({ product }: ProductElementProps) {
             className="my-2"
             dangerouslySetInnerHTML={{ __html: product.about }}
           />
-          <div className="w-full mx-auto py-5">
-            <AspectRatio ratio={16 / 9}>
-              <Image
-                src={product.secondaryImageURL}
-                alt={product.secondaryImageALT}
-                className="object-cover rounded-[4px]"
-                fill
-                unoptimized
-              />
-            </AspectRatio>
-          </div>
           <div className="flex gap-2 flex-wrap mb-4 mt-2">
             {product.keywords.map((t, i) => (
               <Badge

@@ -11,8 +11,6 @@ import {
 } from "../ui/card";
 import { AspectRatio } from "../ui/aspect-ratio";
 import Image from "next/image";
-import { ArrowRight, ArrowRightIcon } from "lucide-react";
-import AnimatedShinyText from "../magicui/animated-shiny-text";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import ShinyButton from "../magicui/shiny-button";
@@ -24,7 +22,6 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import Link from "next/link";
-import { hyfenize } from "@/lib/utils/utils";
 
 interface ReviewsCallOutProps {
   reviews: Review[];
@@ -86,9 +83,7 @@ export default function ReviewsCallOut({ reviews }: ReviewsCallOutProps) {
             <p className="">{reviews[0].description}</p>
             <div className="w-full flex justify-start my-4">
               <Link
-                href={`/${hyfenize(reviews[0].categoryId)}/${hyfenize(
-                  reviews[0].subcategoryId
-                )}/${hyfenize(reviews[0].title)}`}
+                href={`sports-news/${reviews[0].categoryId}/${reviews[0].subcategoryId}/${reviews[0].slug}`}
               >
                 <ShinyButton
                   text="Read More"
@@ -149,9 +144,7 @@ export default function ReviewsCallOut({ reviews }: ReviewsCallOutProps) {
                         <p className="">{r.description}</p>
                         <div className="w-full flex justify-start my-4">
                           <Link
-                            href={`/${hyfenize(r.categoryId)}/${hyfenize(
-                              r.subcategoryId
-                            )}/${hyfenize(r.title)}`}
+                            href={`/${r.categoryId}/${r.subcategoryId}/${r.slug}`}
                           >
                             <ShinyButton
                               text="Read More"

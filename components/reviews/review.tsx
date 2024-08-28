@@ -95,17 +95,6 @@ export default function ReviewElement({ review }: ReviewElementProps) {
             className=""
             dangerouslySetInnerHTML={{ __html: review.comparative }}
           />
-          <div className="w-full mx-auto py-5">
-            <AspectRatio ratio={16 / 9}>
-              <Image
-                src={review.comparativeImageURL}
-                alt={review.comparativeImageALT}
-                className="rounded-[4px] object-cover"
-                fill
-                unoptimized
-              />
-            </AspectRatio>
-          </div>
           <div
             className=""
             dangerouslySetInnerHTML={{ __html: review.conclusion }}

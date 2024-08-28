@@ -1,5 +1,6 @@
 "use server";
 
+import { generateSlug } from "@/lib/utils/utils";
 import prisma from "@/server/db";
 
 interface CreateCategoryProps {
@@ -19,6 +20,7 @@ export const createCategory = async ({ category }: CreateCategoryProps) => {
   await prisma.category.create({
     data: {
       name: category,
+      slug: generateSlug(category),
     },
   });
 

@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ThemeButtons from "./theme-buttons";
 import Logo from "./logo";
-import { MegaMenu } from "./mega-menu";
 import {
   Drawer,
   DrawerClose,
@@ -40,7 +39,6 @@ export default async function Nav() {
           width={70}
         />
       </nav>
-      <MegaMenu />
       <div className="flex items-center gap-2">
         <ThemeButtons className="my-2" />
         {session?.user ? (

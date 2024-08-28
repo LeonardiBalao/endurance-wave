@@ -10,12 +10,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import Logo from "./logo";
-import { useEffect, useState } from "react";
-import { getMenu } from "@/server/actions/category/get-menu";
-import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
 
 interface Category {
   id: string;
@@ -32,19 +28,6 @@ interface Subcategory {
 export function MegaMenu() {
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    // Fetch categories and subcategories from Prisma
-    const fetchData = async () => {
-      try {
-        const fetchedCategories = await getMenu();
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
   return (
     <NavigationMenu className="hidden md:block">
       <NavigationMenuList>

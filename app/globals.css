@@ -67,3 +67,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.posts h2 {
+  font-weight: bold;
+  padding: 16px 0px;
+  font-size: 1.3em;
+}

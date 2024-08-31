@@ -12,22 +12,18 @@ import {
 } from "../ui/card";
 import { Product } from "@prisma/client";
 import { Separator } from "../ui/separator";
-import Link from "next/link";
 
-interface ProductElementProps {
-  product: Product & { brand: string };
+interface ReviewElementProps {
+  product: ProductWithPriceAsString;
 }
 
-export default function ProductElement({ product }: ProductElementProps) {
+export default function ProductElement({ product }: ReviewElementProps) {
   return (
-    <Link href={`/${product.brand}/${product.name}`}>
-      <Card
-        key={product.id}
-        className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary"
-      >
+    <article>
+      <Card className="max-w-screen-sm md:max-w-screen-lg posts bg-secondary">
         <CardHeader>
           <Badge className="leading-5 font-serif text-sm rounded drop-shadow-2xl shadow md:w-[350px] border-b-gray-300 mb-4">
-            {new Date().toLocaleTimeString("en-us", {
+            {product.createdAt.toLocaleTimeString("en-us", {
               weekday: "long",
               year: "numeric",
               month: "long",
@@ -73,6 +69,7 @@ export default function ProductElement({ product }: ProductElementProps) {
             className="my-2"
             dangerouslySetInnerHTML={{ __html: product.about }}
           />
+
           <div className="flex gap-2 flex-wrap mb-4 mt-2">
             {product.keywords.map((t, i) => (
               <Badge
@@ -86,6 +83,6 @@ export default function ProductElement({ product }: ProductElementProps) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </article>
   );
 }

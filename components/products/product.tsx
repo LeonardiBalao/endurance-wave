@@ -81,6 +81,26 @@ export default function ProductElement({ product }: ReviewElementProps) {
               </Badge>
             ))}
           </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-4">
+              <span className="font-semibold text-primary">Advantages</span>
+              {product.advantages.map((a, i) => (
+                <Badge key={i} className="">
+                  {a}
+                </Badge>
+              ))}
+            </div>
+            <div className="flex gap-4">
+              <span className="font-semibold text-gray-600">Disadvantages</span>
+              {product.disadvantages.map((a, i) => (
+                <Badge key={i} className="" variant={"outline"}>
+                  {a}
+                </Badge>
+              ))}
+            </div>
+            <h2 className="">Price: {product.price} USD</h2>
+            <span>Affiliate link: {product.affiliateURL[0]}</span>
+          </div>
         </CardContent>
       </Card>
     </article>

@@ -142,7 +142,7 @@ export default function ProductsCallout({ products }: ProductsCallOutProps) {
                         </div>
                         <p className="">{r.description}</p>
                         <div className="w-full flex justify-start my-4">
-                          <Link href={`/${r.brandId}/${r.slug}`}>
+                          <Link href={`/products/${r.brandId}/${r.slug}`}>
                             <ShinyButton
                               text="Read More"
                               className="hover:bg-primary/50 hover:text-white"

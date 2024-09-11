@@ -81,16 +81,18 @@ export default function ProductElement({ product }: ReviewElementProps) {
               </Badge>
             ))}
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 flex-wrap">
             <div className="flex gap-4">
               <span className="font-semibold text-primary">Advantages</span>
-              {product.advantages.map((a, i) => (
-                <Badge key={i} className="">
-                  {a}
-                </Badge>
-              ))}
+              <div className="flex flex-wrap gap-2">
+                {product.advantages.map((a, i) => (
+                  <Badge key={i} className="">
+                    {a}
+                  </Badge>
+                ))}
+              </div>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               <span className="font-semibold text-gray-600">Disadvantages</span>
               {product.disadvantages.map((a, i) => (
                 <Badge key={i} className="" variant={"outline"}>

@@ -23,6 +23,7 @@ interface CreateProductProps {
 
 export const createProduct = async (product: CreateProductProps) => {
   try {
+    if (!product.affiliateURL) return { error: "Missing affiliate link" };
     if (!product.userId) return { error: "No user ID" };
 
     if (

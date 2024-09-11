@@ -15,16 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ThemeButtons from "./theme-buttons";
 import Logo from "./logo";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import LoginForm from "@/app/auth/login/login-form";
 
 export default async function Nav() {
@@ -39,6 +30,14 @@ export default async function Nav() {
           width={70}
         />
       </nav>
+      <div className="md:flex gap-4 hidden">
+        <Link href={"/sports-news"}>
+          <Button>Sports News</Button>
+        </Link>
+        <Link href={"/products"}>
+          <Button>Products</Button>
+        </Link>
+      </div>
       <div className="flex items-center gap-2">
         <ThemeButtons className="my-2" />
         {session?.user ? (
@@ -72,7 +71,43 @@ export default async function Nav() {
                         color="gray"
                         className="group-hover:translate-x-1 transition-all"
                       />
-                      <p>Dashboard</p>
+                      Dashboard
+                    </Button>
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/products"
+                    className="hover:text-foreground group"
+                  >
+                    <Button
+                      variant={"secondary"}
+                      className="w-full flex gap-3 items-center justify-start"
+                    >
+                      <PanelTop
+                        size={13}
+                        color="gray"
+                        className="group-hover:translate-x-1 transition-all"
+                      />
+                      View Products
+                    </Button>
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/sports-news"
+                    className="hover:text-foreground group"
+                  >
+                    <Button
+                      variant={"secondary"}
+                      className="w-full flex gap-3 items-center justify-start"
+                    >
+                      <PanelTop
+                        size={13}
+                        color="gray"
+                        className="group-hover:translate-x-1 transition-all"
+                      />
+                      View Sports News
                     </Button>
                   </Link>
                 </SheetClose>
@@ -90,7 +125,7 @@ export default async function Nav() {
                       color="gray"
                       className="group-hover:translate-x-1 transition-all"
                     />
-                    <p>Profile</p>
+                    Profile
                   </Button>
                 </Link>
               </nav>

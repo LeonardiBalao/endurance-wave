@@ -1,15 +1,8 @@
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
+import { Menu, Package2, Search } from "lucide-react";
 import Link from "next/link";
 import Logo from "./logo";
 

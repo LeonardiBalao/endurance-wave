@@ -15,7 +15,6 @@ export const getProduct = async (brand: string, name: string) => {
     },
   });
 
-  console.log(brandExist);
   if (!brandExist) return;
 
   const product = await prisma.product.findFirst({

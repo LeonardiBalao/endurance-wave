@@ -73,3 +73,8 @@
   padding: 16px 0px;
   font-size: 1.3em;
 }
+
+.posts p {
+  padding: 12px 0px;
+  line-height: 1.8em;
+}

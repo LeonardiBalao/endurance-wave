@@ -4,7 +4,7 @@ import prisma from "@/server/db";
 
 export const getLatestProducts = async () => {
   let formattedProducts = [];
-  const products = await prisma.product.findMany({ take: 5 });
+  const products = await prisma.product.findMany();
 
   if (!products) return [];
 
@@ -14,6 +14,8 @@ export const getLatestProducts = async () => {
     formattedProducts.push({
       ...r,
       brandId: brand.slug,
+      price: parseFloat(r.price.toString()).toFixed(2),
+      rating: parseFloat(r.rating.toString()).toFixed(2),
     });
   }
 

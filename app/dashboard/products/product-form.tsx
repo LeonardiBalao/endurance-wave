@@ -100,7 +100,6 @@ export default function ProductForm({
     };
     const { error, success } = await createProduct(product);
     if (error) {
-      console.log(error);
       return toast.error(`${error}`);
     }
     toast.success(success);

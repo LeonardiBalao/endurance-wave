@@ -23,7 +23,7 @@ import {
 import Link from "next/link";
 
 interface ProductsCallOutProps {
-  products: Product[];
+  products: ProductWithPriceAsString[];
 }
 
 export default function ProductsCallout({ products }: ProductsCallOutProps) {

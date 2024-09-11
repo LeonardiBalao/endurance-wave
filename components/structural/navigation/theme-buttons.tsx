@@ -9,12 +9,7 @@ import { cn } from "@/lib/utils";
 export default function ThemeButtons({ className }: { className: string }) {
   const { setTheme, theme, resolvedTheme } = useTheme();
   const [checked, setChecked] = useState(false);
-  // function checkSystem() {
-  //   return theme === "dark" || (resolvedTheme === "dark" && theme === "system")
-  //     ? setChecked(true)
-  //     : setChecked(false);
-  //   console.log(theme);
-  // }
+
   useEffect(() => {
     theme === "dark" || (resolvedTheme === "dark" && theme === "system")
       ? setChecked(true)

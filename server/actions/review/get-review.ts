@@ -8,7 +8,6 @@ export const getReview = async (
   subcategory: string,
   title: string
 ) => {
-  console.log(category, subcategory, title);
   if (!category || !subcategory || !title) return;
   const categoryExists = await prisma.category.findFirst({
     where: {
